@@ -21,7 +21,7 @@ public class Record  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull @Column(name = "RECORDID") private Long recordId;
-    @Column(name = "RDATE") private String date;
+    @Column(name = "DATE") private String date;
     @Column(name = "SERVICECODE") private String serviceCode;
     @Column(name = "DETAIL") private String detail;
     @Column(name = "PRICE") private String price;

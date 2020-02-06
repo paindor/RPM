@@ -1,9 +1,12 @@
 package com.rpm.web.user;
 
 import com.rpm.web.carbook.*;
+import com.rpm.web.proxy.Trunk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +20,9 @@ public class UserController {
     @Autowired Record record;
     @Autowired CarbookService carbookService;
     @Autowired UserService userService;
+    @Autowired
+    Trunk trunk;
+
 
 
     @GetMapping("/idCheck/{userid}")
@@ -26,52 +32,44 @@ public class UserController {
 
     @PostMapping("/join")
     public HashMap<String, Object> join(@RequestBody User param){
-        HashMap<String, Object> map = new HashMap<>();
+        trunk.clear();
         userRepository.save(param);
         if (user != null) {
-            map.put("msg", "SUCCESS");
-            map.put("user", user);
+            trunk.put(Arrays.asList("msg", "user"), Arrays.asList(true, user));
+
         } else {
-            map.put("msg", "FAIL");
+            trunk.put(Arrays.asList("msg"), Arrays.asList(false));
+
         }
-        return map;
+        return trunk.get();
     }
     @PostMapping("/login")
     public HashMap<String, Object> login(@RequestBody User param) {
-        HashMap<String, Object> map = new HashMap<>();
+        trunk.clear();
         user = userRepository.findByUseridAndPasswd(param.getUserid(), param.getPasswd());
+
         if (user != null) {
-            map.put("user", user);
-            map.put("token", user.getUserSeq());
-            carbook = carbookRepository.findBySeq(user.getUserSeq());
-            if(carbook!=null ){
-                map.put("mycar", carbook);
+            trunk.put(Arrays.asList("token", "user","result"), Arrays.asList(user.getUserSeq(), user, true));
 
-                List<Record> records = carbookService.getRecords(carbook.getMycarId());
-                if(records != null){
-                    map.put("record", records);
 
-                }
-            }
-            map.put("result", "success");
         } else {
-            map.put("result", "fail");
+            trunk.put(Arrays.asList("result"), Arrays.asList(false));
+
         }
 
-        return map;
+        return trunk.get();
     }
     @PostMapping("/getUserInfo/{token}")
     public HashMap<String, Object> getUserInfo(@PathVariable String token){
-        HashMap<String, Object> map = new HashMap<>();
         user = userRepository.findByUserSeq(Integer.parseInt(token));
         if(user != null){
-            map.put("result" , "success");
-            map.put("user", user);
+            trunk.put(Arrays.asList("result" , "user") , Arrays.asList(true, user));
 
         }else{
-            map.put("result", "fail");
+            trunk.put(Arrays.asList("result" ) , Arrays.asList(false));
+
         }
-        return map;
+        return trunk.get();
     }
     @PostMapping("update")
     public HashMap<String, Object> update( @RequestBody User user){

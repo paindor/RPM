@@ -1,14 +1,13 @@
 <template>
 
 <div id="wrap">
-	<vue-daum-map id="map"
-		:appKey="appKey"
-		:center.sync="center"
-		:level.sync="level"
-		:mapTypeId="mapTypeId"
-		:libraries="libraries"
-		@load="onLoad"
-		style="width:500px;height:500px;"/>
+	<vue-daum-map
+			:appKey="appKey"
+			:center.sync="center"
+			:level.sync="level"
+			:mapTypeId="mapTypeId"
+			:libraries="libraries"
+			style="width:500px;height:400px;"/>
 
 	<div class="list">
 		<strong>
@@ -70,8 +69,8 @@
 	import VueDaumMap from 'vue-daum-map'
 	export default {
 		data: () => ({
-			appKey: '2a0796961d8f22a7436b53de7505245c', // 테스트용 appkey
-			center: {lat:33.450701, lng:126.570667}, // 지도의 중심 좌표
+			appKey: '333b50bb1f33f2a368645364769dff1e', // 테스트용 appkey
+			center: {lat:37.5524361 ,lng:126.9378684}, // 지도의 중심 좌표
 			level: 3, // 지도의 레벨(확대, 축소 정도),
 			mapTypeId: VueDaumMap.MapTypeId.NORMAL, // 맵 타입
 			libraries: [], // 추가로 불러올 라이브러리
@@ -85,11 +84,7 @@
 			onLoad () {
 			}
 		},
-		mounted() {
-			this.map = document.getElementById('map');
 
-
-		}
 	}
 
 

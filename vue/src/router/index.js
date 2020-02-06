@@ -29,6 +29,7 @@ import SnsModify from "@/components/social/SnsModify.vue"
 import SnsWrite from "@/components/social/SnsWrite.vue"
 import MycarModify from '@/components/carbook/MycarModify.vue'
 import Payment from '@/components/contents/Payment.vue'
+import Map from '@/components/carbook/Map.vue'
 
 Vue.use(Router)
 
@@ -37,6 +38,7 @@ export default new Router({
     base:process.env.BASE_URL,
     routes : [
         {path: '/searchmain', name: 'searchmain', component: SearchMain},
+        {path: '/map', name: 'map', component: Map},
         {path:'/', name:'home', component : Home},
         {path:'/join', name:'join', component : Join},
         {path:'/login', name:'login', component : Login},

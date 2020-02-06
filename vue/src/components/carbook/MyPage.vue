@@ -15,8 +15,11 @@
                             <em><h1 class="pic-title">{{this.user.name}} 님의 차량정보 </h1></em>
                         </div>
                         <div>
-                            <p>
+                            <p v-if="this.mycar">
                                 차종:{{this.mycar.model}} <br/>연식: 20{{this.mycar.year}}년 {{this.mycar.month}}월
+                            </p>
+                            <p v-else>
+                                차종:  <br/>연식:
                             </p>
                         </div>
                     </span>
@@ -25,45 +28,67 @@
 
         </div>
         <div class="row" >
-            <div class="changeInfo">
+            <div class="changeInfo" v-if="this.mycar">
                 <h2>주행거리: {{this.mycar.distance}}km</h2>
                 <h2>내 차 연비: 7.5km/L</h2>
                 <h2>마지막 정비일:  {{this.record[0].date}}</h2>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-                    <div class="info">
-                        <h4>정비알림</h4>
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <p><b>그ㅡ래ㅡ프</b></p>
+            <div class="changeInfo" v-else>
+                <h2>주행거리: 0km</h2>
+                <h2>내 차 연비:  0km/L</h2>
+                <h2>마지막 정비일:  </h2>
+            </div>
+            <div v-if="this.mycar">
+                <div class="col-md-6 col-lg-3">
+                    <div class="widget-small primary coloured-icon"><i class="fas fa-car-side"></i>
+                        <div class="info">
+                            <h4>정비알림</h4>
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <p><b>다음정비일: </b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="widget-small warning coloured-icon"><i class="fas fa-car-battery"></i>
+                        <div class="info">
+                            <h4>배터리교체알림</h4>
+                            <p><b>다음 교체일:</b></p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="widget-small info coloured-icon"><i class="icon fa fa-thumbs-o-up fa-3x"></i>
-                    <div class="info">
-                        <h4>타이어교체알림</h4>
-                        <p><b>그-래-프</b></p>
+            <div v-else>
+                <div class="col-md-6 col-lg-3">
+                    <div class="widget-small primary coloured-icon"><i class="fas fa-car-side"></i>
+                        <div class="info">
+                            <h4>정비알림</h4>
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <p><b>정보없음</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="widget-small warning coloured-icon"><i class="fas fa-car-battery"></i>
+                        <div class="info">
+                            <h4>배터리교체알림</h4>
+                            <p><b>정보없음 </b></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
-                    <div class="info">
-                        <h4>배터리교체알림</h4>
-                        <p><b>그-래-프</b></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
-                    <div class="info">
-                        <h4>알림?</h4>
-                        <p><b>뭐가좋을까</b></p>
-                    </div>
-                </div>
-            </div>
+
+
+        </div>
+        <div></div>
+        <div >
+
+            <a ><router-link class="gogo" to="/mypageModifyCheck" >정보수정</router-link></a>
+            <a ><router-link class="gogo" to="/mycarModify"  >차량정보수정</router-link></a>
+
         </div>
         <div class="recordRefuel">
             <div class="col-md-6" style="font-size: 25px; padding-top: 100px;">
@@ -82,11 +107,10 @@
 
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody v-if="this.record">
                         <tr v-for="i of record" :key="i.date">
                             <td>{{i.date}}</td>
-                            <td v-if="i.serviceCode==='refuel'">주유</td>
-                            <td v-else>정비</td>
+                            <td>{{i.serviceCode}}</td>
                             <td>{{i.detail}}</td>
                             <td>{{i.price}}</td>
                             <td><a   href=""><i @click="deleteRecord" class="fas fa-trash-alt"></i></a></td>
@@ -101,14 +125,14 @@
             </div>
 
         </div>
-       <!-- <div></div>-->
+        <!-- <div></div>-->
     </div>
 
 </template>
 
 <script>
-import {mapState} from 'vuex'
-import AddModal from './AddModal'
+    import {mapState} from 'vuex'
+    import AddModal from './AddModal'
     export default {
         name: "MyCarPage",
         data(){
@@ -117,13 +141,13 @@ import AddModal from './AddModal'
                 mycar :JSON.parse(localStorage.getItem("mycar"))
 
 
-                }
+            }
 
 
 
         },
         computed:{
-        ...mapState({
+            ...mapState({
                 user: state => state.user.user,
                 auth: state => state.user.auth
 
@@ -154,6 +178,15 @@ import AddModal from './AddModal'
                 this.$router.push('/login')
 
             }
+            else{
+                console.log('user === '+ this.user.userseq)
+                // this.user.useseq = JSON.parse(localStorage.getItem("token"))
+                //this.$store.dispatch('carbook/getMycar',{user:this.user })
+
+            }
+
+
+
         },
 
 
@@ -336,6 +369,7 @@ import AddModal from './AddModal'
         width: 100%;
         padding-right: 15px;
         padding-left: 15px;
+        float:left;
     }
     .widget-small {
         height: 130px;
@@ -423,7 +457,7 @@ import AddModal from './AddModal'
         padding: 0;
         overflow: hidden;
     }
-     .embed-responsive iframe, .embed-responsive embed, .embed-responsive object, .embed-responsive video {
+    .embed-responsive iframe, .embed-responsive embed, .embed-responsive object, .embed-responsive video {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -459,5 +493,19 @@ import AddModal from './AddModal'
     }
     .info h4{
         font-size: 16px;
+    }
+    .btn-modify{
+        float: right;
+
+    }
+    .gogo{
+        display: inline-block;
+        height: 20px;
+        padding: 4px 16px 1px 17px;
+        margin: 5px;
+        background: #0d124f;
+        border: 1px solid #bebebe;
+        color: white;
+        float: right;
     }
 </style>

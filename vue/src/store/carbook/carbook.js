@@ -23,9 +23,8 @@ const actions = {
                 if(data.record!=null){
                     commit('recordCommit', data)
                 }
-                alert('axios success')
             }).catch(()=>{
-                alert('axios getmycar fail')
+            alert('axios getmycar fail')
         })
 
         alert('mycar')
@@ -44,21 +43,28 @@ const actions = {
 
             })
     },
-    async addRecord({commit}, {oneRecord}){
+    async addRecord( {dt}){
         let headers ={  'authorization': 'JWT fefege..',
             'Accept' : 'application/json',
             'Content-Type': 'application/json'}
-           // console.log(`${oneRecord.toString()}`)
-            axios
-                .post('http://localhost:8080/insertRecord' , oneRecord , headers)
-                .then(({data})=>{
-                    commit('addRecord', data.rec)
+           // console.log(dt.mycar.mycarId)
+            console.log('inter add')
 
 
-                })
-                .catch(()=>{
-                    alert('내역추가실패')
-                })
+
+
+        axios
+            .post(`http://localhost:8080/insertRecord/`+ dt.mycar.mycarId , dt.record , headers)
+            .then(()=>{
+
+                //console.log('in the add ' + data)
+
+
+
+            })
+            .catch(()=>{
+                alert('내역추가실패')
+            })
 
     },
     async deleteRecord( {recordid}){
@@ -84,8 +90,14 @@ const mutations = {
         localStorage.setItem("record", JSON.stringify(data.record))
     },
     addRecord(state, data ){
-        state.record.add(data)
+        state.record.push(data.rec)
+        localStorage.setItem("record", JSON.stringify(data.record))
     },
+    testCommit(state, data){
+        alert('test' +data)
+        state.mycar = data;
+
+    }
 
 
 }

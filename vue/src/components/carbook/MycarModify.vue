@@ -23,10 +23,15 @@
                 <div class="form-group row">
                     <div class="col-md-6 mb-4 mb-lg-0">
                         <h6>제조사 </h6>
-                        <select class="form-control" >
-                            <option value="현대">현대</option>
-                            <option value="기아">기아</option>
-                            <option value="gm">gm </option>
+                        <select id="makeList"
+                                title="제조사를 선택하세요"
+                                class="selectric"
+                                data-beusable-tracking=""
+                                tabindex="-1"
+                                v-for="category of this.$store.state.contents.category1"
+                                :key="category.name">
+                            <option data-type="MAKE_TYPE010"
+                                    data-cnt="category.count">{{category.name}}</option>
                         </select>
                     </div>
                     <div class="col-md-6">

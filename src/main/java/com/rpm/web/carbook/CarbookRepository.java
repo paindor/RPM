@@ -11,4 +11,7 @@ public interface CarbookRepository extends CrudRepository<Carbook, Long> {
     nativeQuery = true)
     public Carbook findBySeq(long userSeq);
 
+    public Carbook findByMycarId(long mycarId);
+
+
 }

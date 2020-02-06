@@ -1,6 +1,7 @@
 package com.rpm.web.user;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.rpm.web.social.Social;
 import lombok.*;
@@ -36,6 +37,7 @@ public class User implements Serializable {
     @Column(name = "REGION")  private String region;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "userSeq", cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Social> socials = new ArrayList<>();

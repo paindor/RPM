@@ -20,6 +20,7 @@ const mutations = {
         state.recommendedCar.push(car)
         state.recommendedCar=state.recommendedCar.filter((car,index)=>state.recommendedCar.indexOf(car)===index)
     }
+
 }
 export default {
     name: 'recommend',
