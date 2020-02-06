@@ -1,5 +1,6 @@
 package com.rpm.web.social;
 
+import com.rpm.web.proxy.Box;
 import com.rpm.web.proxy.PageProxy;
 import com.rpm.web.user.User;
 import com.rpm.web.user.UserRepository;
@@ -8,8 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -19,6 +26,7 @@ public class SocialController {
     @Autowired SocialService socialService;
     @Autowired PageProxy pager;
     @Autowired ThumbRepository thumbRepository;
+    @Autowired Box box;
 
     @GetMapping("/viewList/{pageNo}/{userid}")
     public Map<String, Object> viewList(@PathVariable String pageNo, @PathVariable String userid){
@@ -28,11 +36,12 @@ public class SocialController {
         pager.paging(socialService.allList());
         int thisPageSize = (pager.getEndRow()+1)-((pager.getPageNum()-1)*pager.getPageSize());
         SocialListDTO[] list = new SocialListDTO[thisPageSize];
+        List<SocialListDTO> param = socialService.allList();
         for(int i=0; i<thisPageSize; i++){
-            list[i]=socialService.allList().get(pager.getStartRow()+i);
+            list[i]=param.get(pager.getStartRow()+i);
         }
         map.put("boardList", list);
-        if(!userid.equals("undefined")){
+        if(!userid.equals("ghest")){
             map.put("thumbedboard", socialService.thumbed(userid));
         }
         return map;
@@ -44,8 +53,15 @@ public class SocialController {
         String filename = itr.next();
         MultipartFile mfile = uploadFile.getFile(filename);
         String origName=mfile.getOriginalFilename();
-        String path = "C:\\Users\\KwonHR\\Downloads";
-        File serverFile = new File(path +origName);
+        String path = "C:\\Users\\yejee\\IdeaProjects\\TeamRPM\\src\\main\\resources\\static\\img";
+        String directory=new SimpleDateFormat("yy-MM-dd").format(new Date()).replace("-", File.separator);
+        File serverPath = socialService.makeDir(path, directory);
+        serverPath.mkdirs();
+        String extension = origName.substring(origName.lastIndexOf(".")+1);
+        filename = UUID.randomUUID().toString() +"."+extension;
+        File serverFile = socialService.makeFile(serverPath, filename);
+        box.add(directory);
+        box.add(filename);
         try {
             mfile.transferTo(serverFile);
         } catch (Exception e) {
@@ -54,10 +70,52 @@ public class SocialController {
         return "uploadImg";
     }
 
+    @DeleteMapping("/uploadImg")
+    public String deleteUploadImg(HttpServletRequest uploadFile){
+        /*String origName=uploadFile.getLocalName();
+        String extension = origName.substring(origName.lastIndexOf(".")+1);
+        //직전에 업로드했던 파일 삭제
+        String filePath_ = (String)box.get().get(0);
+        Path filePath= Paths.get("C:\\Users\\yejee\\IdeaProjects\\TeamRPM\\src\\main\\resources\\static\\img\\" + filePath_);
+        // 어제 업로드 된 첨부파일 목록으로 파일경로 구함
+        // ready for check file in directory with DB file list
+        List<Path> fileListPaths = fileList
+                .stream()
+                .map(
+                        vo -> Paths.get(
+                                "C:\\upload",
+                                vo.getUploadPath(),
+                                vo.getUuid() + "_" + vo.getFileName())
+                )
+                .collect(Collectors.toList());
+
+
+        // 어제 디렉토리 경로
+        // files in yesterday directory
+        File targetDir = Paths.get("C:\\Users\\yejee\\IdeaProjects\\TeamRPM\\src\\main\\resources\\static\\img\\"+
+                (String)box.get().get(0),);
+
+        // 어제 디렉토리와 비교해서 삭제할 파일 경로 구하기
+        // attach 테이블에 없는 파일목록 구하기
+        File[] removeFiles = targetDir.listFiles(
+                file -> fileListPaths.contains(file.toPath()) == false);
+
+        // 하나씩 삭제
+        for (File file : removeFiles) {
+            file.delete();
+        }
+
+
+*/
+
+        box.clear();
+        return "";
+    }
+
     @PostMapping("/writeContent")
-    public String writeContent (@RequestBody SocialWriteDTO param){
+    public Boolean writeContent (@RequestBody SocialWriteDTO param){
         socialService.writeContent(param);
-        return "success";
+        return true;
     }
 
     @GetMapping("/loadBoard/{boardSeq}")
@@ -66,35 +124,34 @@ public class SocialController {
     }
 
     @PostMapping("/updateContent/{boardSeq}")
-    public String updateContent (@PathVariable String boardSeq, @RequestBody SocialWriteDTO socialWriteDto){
+    public Boolean updateContent (@PathVariable String boardSeq, @RequestBody SocialWriteDTO socialWriteDto){
         socialService.updateContent(boardSeq, socialWriteDto);
-        return "success";
+        return true;
     }
     @GetMapping("/deleteContent/{boardSeq}")
-    public String deleteContent(@PathVariable String boardSeq){
+    public Boolean deleteContent(@PathVariable String boardSeq){
         socialService.deleteContent(boardSeq);
-        return "success";
+        return true;
     }
 
     @GetMapping("/thumbUp/{boardSeq}/{userid}")
-    public String thumbUp(@PathVariable String boardSeq, @PathVariable String userid){
+    public Boolean thumbUp(@PathVariable String boardSeq, @PathVariable String userid){
         socialService.thumbUp(boardSeq, userid);
-        return "success";
+        return true;
     }
     @GetMapping("/thumbDown/{boardSeq}/{userid}")
-    public String thumbDown(@PathVariable String boardSeq, @PathVariable String userid){
+    public Boolean thumbDown(@PathVariable String boardSeq, @PathVariable String userid){
         socialService.thumbDown(boardSeq, userid);
-        return "success";
+        return true;
     }
 
     @GetMapping("/thumbed/{boardSeq}/{userid}")
-    public String thumbed(@PathVariable String boardSeq, @PathVariable String userid){
-        String result = "";
+    public Boolean thumbed(@PathVariable String boardSeq, @PathVariable String userid){
+        Boolean result = false;
         Social social = socialRepository.findById(Long.parseLong(boardSeq)).get();
         User user = userRepository.findByUserid(userid);
         Thumb thumb = thumbRepository.findByBoardSeqAndUserSeq(social, user);
-        if(thumb != null){result = "true";}
-        else{result = "false";}
+        if(thumb != null){result = true;}
         return result;
     }
 

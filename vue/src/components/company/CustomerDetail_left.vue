@@ -1,45 +1,46 @@
 <template>
     <div class="condition">
+
         <h4 class="title">{{customerInfo.name}} 고객님의 요구사항</h4>
         <div class="compBox">
-        <div class="compLeft">
-        <table class="tableComp left body" cellspacing="0" >
-            <tbody>
+            <div class="compLeft">
+                <table class="tableComp left body" cellspacing="0" >
+                    <tbody>
 
-            <tr v-for="col of columns" :key="col">
-                <td>{{col}}</td>
-            </tr>
+                    <tr v-for="col of columns" :key="col">
+                        <td>{{col}}</td>
+                    </tr>
 
-            </tbody>
-        </table>
-        </div>
-        <div class="compRight">
-        <table class="tableComp right body" cellspacing="0" id="compRightBody" style="width: 300px;">
-            <tbody>
-            <tr  type="gapSpec" >
-                <td>{{customerInfo.makeNm}} {{customerInfo.modelNm}}<br></td>
-            </tr>
-            <tr  type="gapSpec" >
-                <td>{{customerInfo.minPrice}}만원 ~ {{customerInfo.maxPrice}}만원<br></td>
-            </tr>
-            <tr  type="gapSpec" >
-                <td>{{customerInfo.minBeginYear}}년 ~ {{customerInfo.maxBeginYear}}년</td>
-            </tr>
-            <tr  type="gapSpec" >
-                <td>{{customerInfo.minMilage}}km ~ {{customerInfo.maxMilage}}km</td>
-            </tr>
-            <tr  type="gapSpec" >
-                <td>{{customerInfo.fuleTypedName}}</td>
-            </tr>
-            <tr  type="gapSpec" >
-                <td>{{customerInfo.transmissioncdName}}</td>
-            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="compRight">
+                <table class="tableComp right body" cellspacing="0" id="compRightBody" style="width: 300px;">
+                    <tbody>
+                    <tr  type="gapSpec" >
+                        <td>{{customerInfo.makeNm}} {{customerInfo.modelNm}}<br></td>
+                    </tr>
+                    <tr  type="gapSpec" >
+                        <td>{{customerInfo.minPrice|thousandFormatter}}만원 ~ {{customerInfo.maxPrice|thousandFormatter}}만원<br></td>
+                    </tr>
+                    <tr  type="gapSpec" >
+                        <td>{{customerInfo.minBeginYear}}년 ~ {{customerInfo.maxBeginYear}}년</td>
+                    </tr>
+                    <tr  type="gapSpec" >
+                        <td>{{customerInfo.minMilage|thousandFormatter}}km ~ {{customerInfo.maxMilage|thousandFormatter}}km</td>
+                    </tr>
+                    <tr  type="gapSpec" >
+                        <td>{{customerInfo.fuleTypedName}}</td>
+                    </tr>
+                    <tr  type="gapSpec" >
+                        <td>{{customerInfo.transmissioncdName}}</td>
+                    </tr>
 
 
 
-            </tbody>
-        </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>
@@ -52,11 +53,16 @@
                 customerInfo:JSON.parse( localStorage.getItem("customerDetail"))
                 ,
                 columns:[
-                   '희망 기종', '가격','연식','주행거리','연료','변속기'
+                    '희망 기종', '가격','연식','주행거리','연료','변속기'
                 ],
 
             }
 
+        },
+        filters : {
+            thousandFormatter: function (value) {
+                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
         },
 
     }
@@ -70,7 +76,7 @@
         float: left;
         margin-top: 300px ;
         line-height: 180%;
-        padding: 50px 80px;
+        padding: 50px 40px;
         width: 400px;
         background: #fff;
         border: 1px solid #666666;

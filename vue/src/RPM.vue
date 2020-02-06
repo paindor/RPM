@@ -2,7 +2,7 @@
     <div id="main_grid">
 
         <div id="main_image" style="width: 100%; height: 100px; line-height: 100px; text-align: center">
-            <router-link to="/"><img style="width: 100%; max-width: 760px; vertical-align: middle" src="@/assets/image/rpmlogoblack.png" alt=""></router-link>
+            <img @click="goHome" style="width: 100%; max-width: 760px; vertical-align: middle" src="@/assets/image/rpmlogoblack.png" alt="">
         </div>
         <nav v-if="!this.$store.state.user.user.auth==1">
             <button v-if="!this.user.auth" class="navbar-toggler navbar-toggler-right"  type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@
                                 <router-link to="/magazine">magazine </router-link>
                                 <router-link to="/chartMaker">chartMaker </router-link>
                                 <router-link to="/sns">SNS(REVIEW) </router-link>
-<!--                                <router-link to="/mapList">가까운 주유소 찾기 </router-link>-->
+                               <!-- <router-link to="/mapList">가까운 주유소 찾기 </router-link>-->
 
                             </Slide>
                         </div>
@@ -36,19 +36,19 @@
                                 <router-link to="/sns">SNS(REVIEW) </router-link>
                                 <router-link to="/magazine">magazine </router-link>
                                 <router-link to="/chartMaker">chartMaker </router-link>
-<!--                                <router-link to="/mapList">가까운 주유소 찾기 </router-link>-->
-
+                         <!--       <router-link to="/mapList">가까운 주유소 찾기 </router-link>-->
                             </Slide >
                         </div>
                     </li>
                 </ul>
 
-        </div>
+            </div>
         </nav>
 
+
         <div id = "main_layout">
-            <div v-if="this.$store.state.user.user.auth==1" class="logout" @click="logout">
-                <a @click.prevent>로그아웃</a>
+            <div v-if="this.$store.state.user.user.auth==1" class="logout" >
+                <a @click.prevent="logout">로그아웃</a>
             </div>
             <router-view></router-view>
         </div>
@@ -73,14 +73,18 @@
             ...mapState({
                 auth: state=>state.user.auth,
                 user: state=>state.user.user
+
+
             })
         },
-
         methods:{
             logout(){
                 this.$store.dispatch('user/logout')
                 this.$router.push('/')
                 location.reload()
+            },
+            goHome(){
+                (this.$store.state.user.user.auth==1)? this.$router.push('/companyHome'): this.$router.push('/')
             }
         }
     }
@@ -143,7 +147,14 @@
     }
     .bm-menu a:hover{ color: #cccccc !important;}
 
-
+    .bm-overlay {
+        background: rgba(0, 0, 0, 0.3);
+    }
+    .bm-item-list {
+        color: #b8b7ad;
+        margin-left: 10%;
+        font-size: 20px;
+    }
     .bm-item-list > * {
         display: flex;
         text-decoration: none;
@@ -155,6 +166,10 @@
         color: white;
     }
 
+    .about{
+        margin : 0px auto;
+    }
+
     html, body {
         height : 100% !important;
     }
@@ -163,15 +178,29 @@
         padding-top: 50px;
     }
 
+    #about{
+        margin-top:50px;
+    }
+    .text-light{
+        margin-top:50px;
+    }
     nav {
         min-height: 5rem;
     }
 
-
+    nav.fixed-top {
+        padding: 0.5rem;
+    }
     nav.bg-primary li a {
         color: #fff !important;
     }
-
+    nav li a.active {
+        padding: .2rem .4rem;
+        color: #0275d8 !important;
+        background-color: #fff;
+        border-radius: .2rem;
+        margin: .3rem 0.6rem;
+    }
     nav .navbar-collapse.collapsing ul,
     nav .navbar-collapse.show ul {
         margin-top: 3rem;
@@ -186,7 +215,6 @@
     .navbar-toggler {
         border: 0;
     }
-
     .bg-primary {
         color: #fff;
         background-color: black !important;
@@ -196,7 +224,6 @@
     }
     .logout{
         padding-right: 300px;
-
 
         text-align: right;
         font-size: large;

@@ -3,61 +3,59 @@ package com.rpm.web.social;
 import com.rpm.web.contents.Cars;
 import com.rpm.web.contents.CarsRepository;
 
+import com.rpm.web.proxy.Box;
 import com.rpm.web.user.User;
 import com.rpm.web.user.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 @Service
+@Lazy
 public class SocialServiceImpl implements SocialService{
+
     @Autowired SocialRepository socialRepository;
     @Autowired CarsRepository carsRepository;
     @Autowired UserRepository userRepository;
     @Autowired Social social;
-    @Autowired SocialDetailDTO socialDetailDTO;
+    @Autowired SocialDetailDTO socialDetailDto;
     @Autowired User user;
     @Autowired ThumbRepository thumbRepository;
     @Autowired Thumb thumb;
+    @Autowired Box box;
 
 
     @Transactional(readOnly = true)
     @Override
     public List<SocialListDTO> allList() {
-        Iterable<Social> socials = socialRepository.findAll();
-        List<Social> list = new ArrayList<>();
-        for(Social s : socials){
-            list.add(s);
-        }
-
-        Iterable<Cars> cars = carsRepository.findAll();
-        List<Cars> carList = new ArrayList<>();
-
-        for (Cars c : cars) {
-            carList.add(c);
-
-        }
+        List<Social> list = (List<Social>) socialRepository.findAll();
         List<SocialListDTO> lists =  list.stream()
-                .map(social -> new SocialListDTO(social.getBoardSeq(), social.getBoardDate(),
-                        social.getCarCode(), social.getCarName(), social.getBoardContent(), social.getBoardImg(),
-                        social.getUserSeq().getName(), social.getThumbs().size()))
+                .map(social -> new SocialListDTO(
+                        social.getBoardSeq(),
+                        social.getBoardDate(),
+                        social.getCarCode(),
+                        social.getCarName(),
+                        social.getBoardContent(),
+                        social.getBoardImg(),
+                        social.getUserSeq().getName(),
+                        social.getThumbs().size()))
                 .sorted(Comparator.comparing(SocialListDTO::getBoardSeq).reversed())
                 .collect(Collectors.toList());
         return lists;
     }
 
+
     @Override
     public String[] thumbed(String userid) {
-        Iterable<Thumb> thumbs = thumbRepository.findAll();
-        List<Thumb> thumbList = new ArrayList<>();
-        for(Thumb t : thumbs){
-            thumbList.add(t);
-        }
+        List<Thumb> thumbList = (List<Thumb>)thumbRepository.findAll();
         List<Thumb> thumbsByUserid =thumbList.stream().filter(t->t.getUserSeq().getUserid().equals(userid))
                 .collect(Collectors.toList());
         String[] thumbArray = new String[thumbsByUserid.size()];
@@ -71,36 +69,57 @@ public class SocialServiceImpl implements SocialService{
     @Override
     public SocialDetailDTO loadBoard(String boardSeq){
         social = (socialRepository.findById(Long.parseLong(boardSeq))).get();
-        socialDetailDTO.setCarName(social.getCarName());
-        socialDetailDTO.setBoardContent(social.getBoardContent());
-        socialDetailDTO.setBoardDate(social.getBoardDate());
-        socialDetailDTO.setBoardImg(social.getBoardImg());
-        socialDetailDTO.setUserid(social.getUserSeq().getUserid());
-        socialDetailDTO.setUserName(social.getUserSeq().getName());
-        socialDetailDTO.setThumbCount(social.getThumbs().size());
-        return socialDetailDTO;
+        socialDetailDto = new SocialDetailDTO();
+        socialDetailDto.setCarName(social.getCarName());
+        socialDetailDto.setBoardContent(social.getBoardContent());
+        socialDetailDto.setBoardDate(social.getBoardDate());
+        socialDetailDto.setBoardImg(social.getBoardImg());
+        socialDetailDto.setUserid(social.getUserSeq().getUserid());
+        socialDetailDto.setUserName(social.getUserSeq().getName());
+        //socialDetailDto.setCommentCount(social.getComments().size());
+        socialDetailDto.setThumbCount(social.getThumbs().size());
+        return socialDetailDto;
     }
 
     @Override
     public void writeContent(SocialWriteDTO param){
         user = userRepository.findByUserid(param.getUserid());
+        social = new Social();
         social.setUserSeq(user);
         social.setCarName(param.getCarName());
         social.setBoardDate(new SimpleDateFormat ( "yy.MM.dd HH:mm:ss").format( new Date()));
         social.setCarCode("board"+social.getBoardDate());
-        social.setBoardImg("img/"+param.getBoardImgName());
+        int boxSize=box.get().size();
+        social.setBoardImg("img"+File.separator
+                +box.get().get(boxSize-2)+File.separator
+                +box.get().get(boxSize-1));
+        box.clear();
         social.setBoardContent(param.getBoardContent());
         socialRepository.save(social);
     }
 
     @Override
+    public File makeDir(String t, String u) {
+        BiFunction<String,String,File> f = File :: new;
+        return f.apply(t, u);
+    }
+
+    @Override
+    public File makeFile(File t, String u) {
+        BiFunction<File, String, File> f = File :: new;
+        return f.apply(t, u);
+    }
+
+
+    @Override
     public void updateContent(String boardSeq, SocialWriteDTO socialWriteDto){
         social = socialRepository.findById(Long.parseLong(boardSeq)).get();
-        if(socialWriteDto.getBoardImgName().contains("img\\")||
-                socialWriteDto.getBoardImgName().contains("//cdn")){
-            social.setBoardImg(socialWriteDto.getBoardImgName());
+        if(socialWriteDto.getBoardImgName()=="oldImg"){
+            social.setBoardImg(social.getBoardImg());
         }else{
-            social.setBoardImg("img\\"+socialWriteDto.getBoardImgName());
+            social.setBoardImg("img"+File.separator
+                    +box.get().get(0)+File.separator
+                    +box.get().get(1));
         }
         social.setCarName(socialWriteDto.getCarName());
         social.setBoardContent(socialWriteDto.getBoardContent());
@@ -109,7 +128,8 @@ public class SocialServiceImpl implements SocialService{
 
     @Override
     public void deleteContent(String boardSeq) {
-        socialRepository.delete(socialRepository.findById(Long.parseLong(boardSeq)).get());
+        social = socialRepository.findById(Long.parseLong(boardSeq)).get();
+        socialRepository.delete(social);
     }
 
     @Override
@@ -121,8 +141,9 @@ public class SocialServiceImpl implements SocialService{
 
     @Override
     public void thumbDown(String boardSeq, String userid) {
-        thumbRepository.delete(thumbRepository.findByBoardSeqAndUserSeq(
-                socialRepository.findById(
-                        Long.parseLong(boardSeq)).get(), userRepository.findByUserid(userid)));
+        social = socialRepository.findById(Long.parseLong(boardSeq)).get();
+        user = userRepository.findByUserid(userid);
+        thumb = thumbRepository.findByBoardSeqAndUserSeq(social, user);
+        thumbRepository.delete(thumb);
     }
 }

@@ -224,11 +224,9 @@
         },
         methods:{
             handleFilePondInit(){
-                console.log('init')
                 this.filename = ''
             },
             handleaddFile(){
-                console.log('handleProcessFile')
                 this.filename = this.$refs.pond.getFile().filename
             },
             handleRemoveFile(){
@@ -302,17 +300,15 @@
                     'Content-Type': 'application/json'
                 }
                 let data={
-                    boardImgName: this.boardImgName,
+                    boardImgName: (this.$refs.pond.getFile()===null)?"oldImg":this.$refs.pond.getFile().filename,
                     carName : this.contentTitle,
                     boardContent : this.board.boardContent,
                     userid : this.$store.state.user.user.userid
                 }
-                console.log(`boardImgName console${this.boardImgName}`);
-                console.log(this.filename)
 
                 axios.post(`${url}/updateContent/${this.boardSeq}`, data , headers)
                     .then((res)=>{
-                        if(res.data === "success"){
+                        if(res.data){
                             alert('글이 수정되었습니다')
                             localStorage.setItem('boardSeq', this.boardSeq)
                             this.$router.push("/snsdetail")

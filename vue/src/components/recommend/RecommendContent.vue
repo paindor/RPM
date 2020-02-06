@@ -35,6 +35,13 @@
                 </div>
             </div>
             <div class="result_list">
+                <colgroup>
+                    <col style="width: 55px;">
+                    <col style="width: 190px;">
+                    <col style="width: 485px;">
+                    <col style="width: 290px;">
+                    <col>
+                </colgroup>
                 <h1 class="emptySign" v-if="recommendedCar.length==0">등록된 차량이 없습니다</h1>
                 <table>
 
@@ -90,7 +97,7 @@
                 <a href="" class="delete" >선택삭제</a>
 
                 <div class="center_btn">
-                <button  href="" @click="pop_rendar">한눈에 비교하기</button>
+                    <button  href="" @click="pop_rendar">한눈에 비교하기</button>
                     <modals-container />
                 </div>
             </div>
@@ -111,15 +118,15 @@
             Pagination2
         },
         data(){
-           return {
-               allchecked:false,
-               List:[],
-               checkedList:[
+            return {
+                allchecked:false,
+                List:[],
+                checkedList:[
 
-               ],
-               recommendedCar:[]
+                ],
+                recommendedCar:[]
 
-           }
+            }
         },
         methods: {
 

@@ -78,6 +78,8 @@
                 }
                 if (this.pagination.length>0){
                     this.$emit("movePage",this.cutPage(this.pageNums[0].num))
+                }else{
+                    this.pageNums=[{num:''}]
                 }
 
 

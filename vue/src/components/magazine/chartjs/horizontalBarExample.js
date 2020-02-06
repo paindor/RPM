@@ -2,9 +2,8 @@ import { HorizontalBar } from './baseCharts'
 
 export default {
   extends: HorizontalBar,
-  props: ['BarGraphDataSetup'],
-  methods: {
-    dataInit() {
+  props:['BarGraphDataSetup'],
+  mounted(){
       this.renderChart({
         labels: this.BarGraphDataSetup.labels,
         datasets: [
@@ -18,5 +17,4 @@ export default {
         ]
       }, {responsive: true, maintainAspectRatio: false})
     }
-  }
 }

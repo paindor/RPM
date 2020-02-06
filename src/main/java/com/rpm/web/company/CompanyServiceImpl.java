@@ -10,31 +10,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CompanyServiceImpl {
+public class CompanyServiceImpl implements CompanyService{
     @Autowired
     CarsRepository carsRepository;
-public List<Cars> getBestCarList(Recommend recommend){
-    List<Cars> list =new ArrayList<>();
-    carsRepository.findByModelnmOrderByMilage(recommend.getModelNm()).forEach(el->{
-        if(list.size()<5) {
-            if (recommend.getMinPrice() <= el.getPrice() && recommend.getMaxPrice() > el.getPrice()) {
+    public List<Cars> getBestCarList(Recommend recommend) {
+        List<Cars> list =new ArrayList<>();
+        carsRepository.findByModelnmOrderByPrice(recommend.getModelNm()).forEach(el->{
+
+            if ( list.size()<5&&recommend.getMinPrice() <= el.getPrice() && recommend.getMaxPrice() > el.getPrice()) {
                 list.add(el);
             }
-        }
+        });
+        if(list.size()<5){
+            carsRepository.findByCategorycd(carsRepository.findFirstByModelnm(recommend.getModelNm()).getCategorycd()).forEach(el->{
+                if(list.size()<5){
+                    if(recommend.getMinPrice()<el.getPrice()&&recommend.getMaxPrice()>el.getPrice()){
+                        list.add(el);
+                    }
+                }
             });
-    carsRepository.findByModelnmOrderByMilage(recommend.getModelNm()).forEach(el->{
-        if(list.size()<5) {
-                list.add(el);
-
         }
-    });
-   /* if(list.size()<5){
-      carsRepository.findByCategorycd(carsRepository.findFirstByModelnm(recommend.getModelNm()).getCategorycd()).forEach(el->{
-          if(recommend.getMinPrice()<el.getPrice()&&recommend.getMaxPrice()>el.getPrice()){
-              list.add(el);
-          }
-      });
-    }*/
-    return list;
-}
+
+
+        return list;
+    }
 }

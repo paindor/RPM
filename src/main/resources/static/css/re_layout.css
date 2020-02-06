@@ -18,8 +18,8 @@
 .top_banner span a img{vertical-align:middle;}
 #wrap { min-width: 1180px; }
 /* 헤더 New */
-#headerNew { font-family: "Noto Sans Korean", "Dotum", "돋음", "굴림", Helvetica, Arial, sans-serif; background-position: center 0; background-repeat: no-repeat; }
-#headerCustom { font-family: "Noto Sans Korean", "Dotum", "돋음", "굴림", Helvetica, Arial, sans-serif; background-position: center 0; background-repeat: no-repeat; }
+#headerNew { font-family: "Segoe UI", "Dotum", "돋음", "굴림", Helvetica, Arial, sans-serif; background-position: center 0; background-repeat: no-repeat; }
+#headerCustom { font-family: "Segoe UI", "Dotum", "돋음", "굴림", Helvetica, Arial, sans-serif; background-position: center 0; background-repeat: no-repeat; }
 #headerNew .inner { position: relative; margin: 0 auto; width: 1180px; min-width: 1180px; }
 #headerCustom  .inner { position: relative; margin: 0 auto; width: 800px; min-width: 800px; }
 #headerNew .global { background-color: #f2f2f2; }

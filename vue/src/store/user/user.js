@@ -51,6 +51,7 @@ const actions = {
                 //alert(data.result.toString())
                 if(data.result == true) {
                     commit('LOGIN_COMMIT', data)
+                    localStorage.setItem('auth',data.user.auth)
                     localStorage.setItem("token", data.token)
                     localStorage.setItem("userId",data.user.userid)
                     getCar(data.user)

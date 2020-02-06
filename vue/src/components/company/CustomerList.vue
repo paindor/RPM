@@ -9,7 +9,7 @@
             <div class="align_field">
                 <div class="all_check">
                     <div class="checker" id="uniform-allCheck"><span :class="{checked:allchecked}" @click="allcheck(customers)" :key="allchecked"><input type="checkbox" name="allCheck"
-                                                                            id="allCheck" class="uniform" title="전체체크"></span>
+                                                                                                                                                         id="allCheck" class="uniform" title="전체체크"></span>
                     </div>
                 </div>
                 <div class="align">
@@ -59,7 +59,7 @@
                         <td class="car_info">
                             <a  @click="goDetail(customer)" class="name">{{customer.modelNm}}</a>
                             <span class="md_year">연식 :{{customer.minBeginYear}}년 ~{{customer.maxBeginYear}}년 </span>
-                            <span class="price">가격 :{{customer.minPrice}}만원 ~{{customer.maxPrice}} 만원  <br>주행거리 :{{customer.minMilage}}km ~ {{customer.maxMilage}}km  </span>
+                            <span class="price">가격 :{{customer.minPrice|thousandFormatter}}만원 ~{{customer.maxPrice|thousandFormatter}} 만원  <br>주행거리 :{{customer.minMilage|thousandFormatter}}km ~ {{customer.maxMilage|thousandFormatter}}km  </span>
                         </td>
                         <td class="car_opt">
                             <ul class="opt_list">
@@ -94,7 +94,7 @@
     import axios from "axios"
     export default {
         components:{
-          pagination
+            pagination
         },
         data(){
             return {
@@ -119,6 +119,11 @@
 
 
 
+        },
+        filters : {
+            thousandFormatter: function (value) {
+                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
         },
         mixins:[checkBox],
         created() {

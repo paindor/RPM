@@ -1,5 +1,6 @@
 <template>
     <div class="helpCar">
+
         <div class="helpTab">
             <!-- B -->
             <div class="tab1">
@@ -163,11 +164,11 @@
                                                         <option v-for="milage of minMilages" :key="milage" value="">{{milage}}</option>
 
                                                     </select></div>
-                                                    <div class="selectric"><span class="label" >{{recommend.minMilage}}</span></div>
+                                                    <div class="selectric"><span class="label" >{{recommend.minMilage|thousandFormatter}}</span></div>
                                                     <div class="selectric-items" tabindex="-1">
                                                         <div class="selectric-scroll" style="width: 230px; visibility: visible; display: block;">
                                                             <ul>
-                                                                <li @click="selectMilage(milage,index)" v-for="(milage,index) of minMilages" :key="milage" class="">{{milage}}</li>
+                                                                <li @click="selectMilage(milage,index)" v-for="(milage,index) of minMilages" :key="milage" class="">{{milage|thousandFormatter}}</li>
 
                                                             </ul>
                                                         </div>
@@ -184,11 +185,11 @@
                                                         <option v-for="milage of maxMilages" :key="milage" value="">{{milage}}</option>
 
                                                     </select></div>
-                                                    <div class="selectric"><span class="label" data-beusable-tracking="">{{recommend.maxMilage}}</span></div>
+                                                    <div class="selectric"><span class="label" data-beusable-tracking="">{{recommend.maxMilage|thousandFormatter}}</span></div>
                                                     <div class="selectric-items" tabindex="-1">
                                                         <div class="selectric-scroll" style="width: 230px; visibility: visible; display: block;">
                                                             <ul>
-                                                                <li @click="recommend.maxMilage=milage" v-for="milage of maxMilages" :key="milage" class="">{{milage}}</li>
+                                                                <li @click="recommend.maxMilage=milage" v-for="milage of maxMilages" :key="milage" class="">{{milage|thousandFormatter}}</li>
 
                                                             </ul>
                                                         </div>
@@ -279,11 +280,11 @@
                                                     <div class="selectric-hide-select"><select name="wr_gt_v_mfr_date"  class="selectric" data-unit="년">
                                                         <option v-for="price of minPrices"  :key="price" value="">{{price}}</option>
                                                     </select></div>
-                                                    <div class="selectric"><span class="label" >{{recommend.minPrice}}</span></div>
+                                                    <div class="selectric"><span class="label" >{{recommend.minPrice|thousandFormatter}}</span></div>
                                                     <div class="selectric-items" tabindex="-1">
                                                         <div class="selectric-scroll" style="width: 230px; visibility: visible; display: block;">
                                                             <ul>
-                                                                <li @click="selectMinPrice(price,index)" v-for="(price,index) of minPrices"  :key="price" class="">{{price}}</li>
+                                                                <li @click="selectMinPrice(price,index)" v-for="(price,index) of minPrices"  :key="price" class="">{{price|thousandFormatter}}</li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -292,14 +293,14 @@
                                             <div class="type_ri">
                                                 <div id="maxPrice"  class="selectric-wrapper selectric-selectric selectric-below selectric-hover" @click= "searchKeyClick(`maxPrice`)">
                                                     <div class="selectric-hide-select"><select name="wr_gt_v_mfr_date"  class="selectric" data-unit="년">
-                                                        <option  v-for="price of maxPrices" :key="price" value="">{{price}}</option>
+                                                        <option  v-for="price of maxPrices" :key="price" value="">{{price|thousandFormatter}}</option>
 
                                                     </select></div>
-                                                    <div class="selectric"><span class="label" >{{recommend.maxPrice}}</span></div>
+                                                    <div class="selectric"><span class="label" >{{recommend.maxPrice|thousandFormatter}}</span></div>
                                                     <div class="selectric-items" tabindex="-1">
                                                         <div class="selectric-scroll" style="width: 230px; visibility: visible; display: block;">
                                                             <ul>
-                                                                <li @click="recommend.maxPrice=price" v-for="price of maxPrices" :key="price" class="selected">{{price}}</li>
+                                                                <li @click="recommend.maxPrice=price" v-for="price of maxPrices" :key="price" class="selected">{{price|thousandFormatter}}</li>
 
                                                             </ul>
                                                         </div>
@@ -336,7 +337,7 @@
                 recommend:{ userId:'',makeNm : '제조사를 선택하세요', modelGrpNm : '모델을 선택하세요', modelNm : '세부모델을 선택하세요',
                     minBeginYear :'최소', maxBeginYear:'최대',minMilage:'최소',maxMilage:'최대',transmissioncdName:'변속기를 선택하세요',
                     fuleTypedName:'연료를 선택하세요',recCommentCd:'',centerRegion:'지역',centerName:'직영점',minPrice:'최소',
-                    maxPrice:'최대',recoCode:0,auth:true,name:'강성조'},
+                    maxPrice:'최대',recoCode:0,auth:true,name:this.$store.state.user.user.name},
                 minYears:[],
                 maxYears:[],
                 transmissions:['오토','수동'],
@@ -404,9 +405,10 @@
                     this.recommend.centerRegion=='지역'||this.recommend.centerName=='직영점'||this.recommend.minPrice=='최소'|| this.recommend.maxPrice=='최대'){
                     alert('필수값을 입력하세요')
                 }else{
+                    if(this.recommend.fuleTypedName=='연료를 선택하세요'){this.recommend.fuleTypedName=''}
+                    if(this.recommend.transmissioncdName=='변속기를 선택하세요'){this.recommend.transmissioncdName=''}
                     axios
                         .post('/recommend/inputRecommend', this.recommend)
-                        .then(res => { console.log(res.data) })
                         .catch(e=>{
                             alert('erorr'+e)
                         })
@@ -441,7 +443,7 @@
                 }
             },
             selectRegion(region){
-
+                this.recommend.centerName='직영점'
                 this.recommend.centerRegion=region
                 region = (region=='경기/인천')? '경기': region
                 axios
@@ -459,8 +461,12 @@
 
 
         },
-        computed : {
+        filters : {
+            thousandFormatter: function (value) {
+                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
         },
+
         created(){
             for(let i =0; i<18; i++){
                 this.minYears.push(2003+i)

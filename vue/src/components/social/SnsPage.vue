@@ -1,50 +1,49 @@
 <template>
-<div class= "snsPage">
-  <link rel="stylesheet" href="https://blackrockdigital.github.io/startbootstrap-agency/css/agency.min.css">
-<link rel="stylesheet" href="https://blackrockdigital.github.io/startbootstrap-agency/vendor/fontawesome-free/css/all.min.css">
+  <div class= "snsPage">
+    <link rel="stylesheet" href="https://blackrockdigital.github.io/startbootstrap-agency/css/agency.min.css">
+    <link rel="stylesheet" href="https://blackrockdigital.github.io/startbootstrap-agency/vendor/fontawesome-free/css/all.min.css">
 
-<section class="bg-light page-section" style="padding: 20px 0;" id="portfolio">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 class="section-heading text- uppercase">INSTARPM</h2>
-          <h3 class="section-subheading text-muted" style="margin:0"></h3>
+    <section class="bg-light page-section" style="padding: 20px 0;" id="portfolio">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2 class="section-heading text- uppercase">INSTARPM</h2>
+            <h3 class="section-subheading text-muted" style="margin:0"></h3>
+          </div>
+          <div class="btn-edit">
+            <button class="btn btn-primary" @click="write" type="button">
+              <i class="fas fa-edit"></i> 글쓰기</button>
+          </div>
         </div>
-        <div class="btn-edit">
-        <button class="btn btn-primary" @click="write" type="button">
-                  <i class="fas fa-edit"></i> 글쓰기</button>
-        </div>
-      </div>
-      <div class="row-contents">
+        <div class="row-contents">
 
-        <div v-for="(item, index) in boardList" :key="index" class="col-md-4 col-sm-6 portfolio-item">
-          <a class="portfolio-link" href="/snsdetail" @click="goDetail(item.boardSeq)" active-class="active">
-            <div class="portfolio-hover">
-              <div class="portfolio-hover-content">
-                <i class="fas fa-plus fa-3x"></i>
+          <div v-for="(item, index) in boardList" :key="index" class="col-md-4 col-sm-6 portfolio-item">
+            <a class="portfolio-link" href="/snsdetail" @click="goDetail(item.boardSeq)" active-class="active">
+              <div class="portfolio-hover">
+                <div class="portfolio-hover-content">
+                  <i class="fas fa-plus fa-3x"></i>
+                </div>
               </div>
-            </div>
-            <img class="img-fluid" :src="item.boardImg" alt="">
-          </a>
-          <div class="portfolio-caption">
-            <h4>{{item.carName}}</h4>
-            <p class="text-muted">{{item.userName}}</p>
-            <div class="btn-like-comment">
-              <a class="btn-like" v-if="thumbed(item.boardSeq)" style="color:#E81919"><i class="fas fa-heart"></i></a>
-              <a class="btn-like" v-else><i class="far fa-heart"></i></a>
-              {{item.thumbCount}}
-              <!--<a class="btn-comment"><i class="far fa-comment"></i> {{item.commentCount}}</a>-->
+              <img class="img-fluid" :src="item.boardImg" alt="">
+            </a>
+            <div class="portfolio-caption">
+              <h4>{{item.carName}}</h4>
+              <p class="text-muted">{{item.userName}}</p>
+              <div class="btn-like-comment">
+                <a class="btn-like" v-if="thumbed(item.boardSeq)" style="color:#E81919"><i class="fas fa-heart"></i></a>
+                <a class="btn-like" v-else><i class="far fa-heart"></i></a>
+                {{item.thumbCount}}
+              </div>
             </div>
           </div>
         </div>
+        <div style="text-align: center;" class="btn-edit" >
+          <button class="btn btn-primary"  v-if="hasMore" style="float:right" @click="loadData"><i class="fas fa-angle-down"></i></button>
+          <h4 v-if="noMore">더이상의 게시물이 없습니다.</h4>
+        </div>
       </div>
-      <div style="text-align: center;" class="btn-edit" >
-        <button class="btn btn-primary"  v-if="hasMore" style="float:right" @click="loadData"><i class="fas fa-angle-down"></i></button>
-        <h4 v-if="noMore">더이상의 게시물이 없습니다.</h4>
-      </div>
-    </div>
-  </section>
-</div>
+    </section>
+  </div>
 </template>
 <script>
   import axios from "axios"
@@ -78,8 +77,9 @@
      },*/
     methods: {
       loadData(){
+        let userid = (this.$store.state.user.auth===false)?"ghest":this.$store.state.user.user.userid
         axios
-                .get(`${url}/viewList/${this.page}/${this.$store.state.user.user.userid}`)
+                .get(`${url}/viewList/${this.page}/${userid}`)
                 .then(res => {
                   if (res.data.boardList.length) {
                     if(res.data.thumbedboard!=null){
@@ -101,6 +101,17 @@
 
         this.page += 1
       },
+      /* scroll () {
+         window.onscroll = () => {
+
+           let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.scrollHeight+100
+           if (bottomOfWindow) {
+             this.scrolledToBottom = true
+             alert('')
+             this.loadData()
+           }
+         }
+       },*/
       write() {
         this.$router.push({path: '/snswrite'})
       },
@@ -246,27 +257,27 @@
     padding-left: 0;
   }
 
-   .col-sm-6, .col-md-4, .col-lg-12 {
+  .col-sm-6, .col-md-4, .col-lg-12 {
     position: relative;
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
   }
-    .col-sm-6 {
-      -ms-flex: 0 0 50%;
-      flex: 0 0 50%;
-      max-width: 50%;
-    }
-    .col-md-4 {
-      -ms-flex: 0 0 30%;
-      flex: 0 0 30%;
-      max-width: 30%;
-    }
-    .col-lg-12 {
-      -ms-flex: 0 0 100%;
-      flex: 0 0 100%;
-      max-width: 100%;
-    }
+  .col-sm-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .col-md-4 {
+    -ms-flex: 0 0 30%;
+    flex: 0 0 30%;
+    max-width: 30%;
+  }
+  .col-lg-12 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 
   .btn {
     display: inline-block;

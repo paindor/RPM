@@ -1,0 +1,322 @@
+@charset "utf-8"; 
+
+/* 새창 헤더 : common 으로 이동 */
+#autodanawa_header_mini {border-bottom:1px solid #e5e5e5;margin-bottom:20px;}
+#autodanawa_header_mini:after,#autodanawa_header_mini .gnb:after,#autodanawa_header_mini .right:after {content: ""; display: block; height: 0; clear: both; visibility: hidden;}
+#autodanawa_header_mini .gnb {float:left;}
+#autodanawa_header_mini .right {float:right;}
+#autodanawa_header_mini .gnb li {float:left;padding-left:10px;height:29px;line-height:29px;}
+#autodanawa_header_mini .right li {float:left;padding-right:5px;height:29px;line-height:29px;}
+#autodanawa_header_mini .right li.login {position:relative;}
+#autodanawa_header_mini .right li.login > img {width:20px;vertical-align:middle;margin-bottom:2px;}
+#autodanawa_header_mini .right .login .link {display:none; z-index:410; line-height:0; }
+#autodanawa_header_mini .right .login.on .link {display:block; position:absolute; left:-4px;top:22px; border:1px solid #a1a1a1; z-index:10; width:150px; padding:7px; padding-bottom:0;background:#ffffff; }
+
+/* 비교하기 본 페이지 */
+
+.compHead {position: relative;background:#ffffff; z-index:30;width:100%;/*overflow: hidden;*/}
+.compHead #autodanawa_header_mini {max-width:980px;}
+.compTop {height:38px;background:#ffffff;border-bottom:2px solid #0375e0; z-index:30;width:100%;}
+.compTop .cont {max-width:980px;height:38px;position:relative;}
+.compTop .logo_auto {position:absolute;top:0;left:0;width:200px;height:38px;background:#cccccc;padding:0;margin:0;background:url(http://autoimg.danawa.com/html/images/common/logo_compare_02.png) 0 -5px  no-repeat;}
+
+.compTop .logo_compare {display:none;position:absolute;top:0;left:165px;width:85px;height:38px;background:#dddddd;padding:0;margin:0;background:url(http://autoimg.danawa.com/html/images/common/logo_compare_01.png) -165px -5px  no-repeat;}
+.compTop .logo_auto a, .compTop .logo_compare a {display:block;height:100%}
+.compTop .tabs {margin-left:260px;margin-right:130px;border-right:1px solid #b3b3b3;border-top:1px solid #0375e0;}
+.compTop .tabs ul:after {content: ""; display: block; height: 0; clear: both; visibility: hidden;}
+.compTop .tabs li {float:left;background:#ffffff;}
+.compTop .tabs li {width:20%;border-left:1px solid #ccc;float:left;margin-left:-1px;}
+.compTop .tabs li button {width:100%;display:block;text-align:center;line-height:37px;font-size:14px;}
+.compTop .tabs li button.on {font-weight:bold;background:#0375e0;color:#ffffff;font-weight:bold;}
+
+.compTop .social {position:absolute;top:0;right:0;width:95px;height:38px;}
+.compTop .social li{float:left;font-size:0;line-height:0;margin-top:8px;margin-right:5px;}
+.compTop .social img {width:25px; height:25px;}
+.compTop .social a.share {display:inline-block;width:27px;height:25px;background: url(http://autoimg.danawa.com/html/images/common/icon_03.png) -40px -726px  no-repeat;}
+.compTop .social a.print {display:inline-block;width:25px;height:25px;background: url(http://autoimg.danawa.com/html/images/common/icon_03.png) 0px -727px  no-repeat;}
+.compTop .newwin {position:absolute;top:5px;right:5px;}
+
+.compTop .right{position:absolute;top:5px;right:0}
+.compTop .btn_share{display:inline-block;padding:0 10px;height:33px;font-size:13px;line-height:30px;font-weight:bold;color:#666;font-family:"맑은 고딕";}
+.compTop .btn_share.on, .compTop .btn_share:hover, .compTop .btn_share:focus{color:#0375e0;}
+
+.compFoot {max-width:980px;padding-bottom:20px;}
+.compFoot .cont {margin:10px;padding:10px;background:#f4f4f4;border:1px solid #e5e5e5;position:relative;line-height:150%;font-size:11px;color:#666666;}
+.compFoot .cont a {position:absolute;bottom:5px;right:5px;}
+
+
+.compBox {position: relative;z-index:25}
+.compLeft {position: absolute;top: 0;left: 0;width: 75px;background: #fff;z-index:20}
+.compRight {padding-left: 80px;overflow: hidden;display: block; position: relative;z-index:15}
+/*.compRight {padding-left: 80px;display: block; position: relative;z-index:15}*/
+.tableComp.left{width:80px;}
+.tableComp.right{width:900px;left:0;position:relative;table-layout:fixed}
+
+.tableComp.foot{border-top:2px solid #0375e0;border-bottom:2px solid #0375e0}
+
+.tableComp.body{}
+.compScrollX  {position:fixed; left:0px; bottom:0px;z-index:30;width:100%;background: #b3b3b3;height:20px;}
+.compScrollX .inner {margin-left:80px;overflow-x:scroll;overflow-y:hidden;}
+.tableScrollX {width:1080px;}
+
+.tableComp.left.head{z-index:19}
+.tableComp.left.body{z-index:17}
+.tableComp.left.foot{z-index:18}
+.tableComp.right.head{z-index:14}
+.tableComp.right.body{z-index:12}
+.tableComp.right.foot{z-index:13}
+
+/* fixed 상단 */
+.compTop.fixed {position:fixed;top:0;left:0;}
+.compBox.fixed .tableComp.head{position:fixed;top:40px;}
+.compBox.fixed .tableComp.head.right{margin-left:80px;}
+.compBox.fixed {padding-top:245px;}
+.compBox.fixed .tableComp.left.body {padding-top:245px;}
+.tableComp.foot.fixed {position:fixed;bottom:20px;left:0;}
+.tableComp.foot.right.fixed {margin-left:80px;}
+.compFoot.fixed {margin-top:54px;}
+
+/* table */
+.tableComp th{padding:7px 0;border-right:1px solid #ccc;border-bottom:1px solid #ccc;background: #f4f4f4;text-align:center;position: relative;}
+.tableComp.body th{background: url(http://autoimg.danawa.com/html/images/common/bg_false.png);}
+.tableComp td {padding:7px 0;border-right:1px solid #ccc;border-bottom:1px solid #ccc;background: #ffffff;text-align:center;position: relative;height:21px}
+.tableComp [id^=unitItem] td {text-align:left;}
+.tableComp.left td,.tableComp.left th{}
+.tableComp.right td {width:179px;}
+.tableComp.head td, .tableComp.head th {height:205px;border-bottom:1px solid #0375e0}
+.tableComp.foot td,.tableComp.foot th {border-bottom:0;border-right:1px solid #0375e0;height:28px;}
+.tableComp.left.foot th {border-bottom:0;background:#0375e0;color:#ffffff;border-right:1px solid #0375e0;font-size:16px;letter-spacing:-1px;}
+.tableComp.right #unitSumy7 td{padding:0;height:35.5px}
+.tableComp.right #unitSumy7 td a{display:block;margin:0 auto;width:125px;padding-bottom:0.5px}
+.tableComp.right #unitSumy7 td img{display:block;width:100%}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.tableComp.right #unitSumy7 td{height:35px}
+	.tableComp.right #unitSumy7 td a{padding-bottom:0}
+}
+
+#leftFree, #unitFree td {background:#fafafa;}
+#leftLoca, #unitLoca td {background:#fafafa;}
+#leftMile, #unitMile td {background:#fafafa;}
+#unitLoca .sido .buttonHelp {margin-top:2px;padding-bottom:0;}
+
+/* unit */
+.buttonAddComp {width:100%;height:30px;padding-top:110px;background:url(http://autoimg.danawa.com/html/images/blank/model_200_100.png) 50% -10px  no-repeat;}
+
+
+
+.compBox .sum{position: relative;}
+.compBox .gap {display: none;}
+.compBox .gap.on {display: inline-block;position: absolute;bottom: -3px;right: 0px;padding-right: 4px;font-size: 11px;line-height: 11px;}
+.compBox .gap:after {content: "";display: block;width: 4px;height: 5px;position: absolute;top: 15px;right: -1px;}
+.compBox .gap .up {color: #d90400;font-weight:normal;}
+.compBox .gap .down {color: #269fd3;font-weight:normal;}
+.compBox .gap .same {color: #666666;font-weight:normal;}
+.compBox .gap .base {color: #666666;font-weight:normal;display:none}
+
+#compGrnd td,#footLft td{background:#fff}
+#compGrnd div{margin-top:-5px;margin-bottom:5px;font-weight:bold;color:#ed101f;font-size:17px;}
+#footLft div{margin-top:-5px;margin-bottom:5px;font-weight:bold;color:#ed101f;font-size:15px;}
+#footLft .cmnt{bottom:0;left:10px;position: absolute;font-size:11px;color:#666}
+
+#compCash div{color:#0899ec;font-size:15px;font-weight:bold;}
+#compPric .ttl{float:left;padding-left:5px;}
+#compPric .val{float:right;padding-right:5px;}
+#compPric .sum{border-top:1px solid #ccc;font-weight:bold;margin-top:10px;padding-top:5px;color:#1781be;}
+#compPric .sum .gap.on{bottom:-10px;}
+#compEnty .ttl{float:left;padding-left:5px;text-align:left;}
+#compEnty .val{float:right;padding-right:5px;}
+#compEnty .sum{border-top:1px solid #ccc;font-weight:bold;margin-top:10px;padding-top:5px;color:#1781be;}
+#compEnty .sum .gap.on{bottom:-10px;}
+#compMant .ttl{float:left;padding-left:5px;text-align:left;}
+#compMant .val{float:right;padding-right:5px;}
+#compMant .sum{border-top:1px solid #ccc;font-weight:bold;margin-top:10px;padding-top:5px;color:#1781be;}
+#compMant .sum .gap.on{bottom:-10px;}
+
+.compSelect{background:#fff;padding:10px}
+.compSelect dt{clear:both;width:80px;float:left;padding-bottom:5px;font-weight:bold;}
+.compSelect dd{float:left;padding-bottom:5px;width:70%}
+.compSelect dd select{width:100%}
+.compSelect .btn{clear:both;text-align:center;}
+.compSelect #btn_compClose{display:inline-block;width:40px;margin-left:20px;}
+.compSelect #btn_compChg{display:inline-block;width:100px;}
+
+
+.compBox .itms li {position:relative;margin:0;border-top:1px solid #f4f4f4;text-align:left;padding-top:5px;margin-top:5px;}
+.compBox .itms li:first-child {border:0;padding-top:0;margin-top:0;}
+.compBox .itms li .blank {padding:5px 0;}
+.compBox .itms li .check{float:left;padding:0 3px 0 5px;}
+.compBox .itms li .title{}
+.compBox .itms li .price{float:right;display:inline-block;padding-right:5px;}
+
+.compBox .term li {cursor:pointer;position:relative;margin:0;border-top:1px solid #f4f4f4;text-align:left;padding-top:5px;margin-top:5px;}
+.compBox .term li:first-child {border:0;padding-top:0;margin-top:0;}
+.compBox .term li .title {font-weight:bold;padding-left:5px;}
+.compBox .term li .check{margin:5px 0px 0 5px;line-height:100%;display:inline-block;}
+.compBox .term li .text{}
+.compBox .term li .price{float:right;display:inline-block;padding-right:5px;}
+.compBox .term li .blank {padding:5px 0;}
+.compBox .popupTipOn.help{display:none;}
+.compBox #openSelQBrandJ{line-height:100%;}
+
+
+[id^='Photo_'] {position:relative;}
+[id^='Photo_'] .model {padding:0 5px 0 5px;height:28px;}
+[id^='Photo_'] .model .title {display:inline-block;font-weight:bold;line-height:25px;font-size:14px;position:relative;padding-left:35px;padding-right:5px;overflow: hidden;  white-space: nowrap;  text-overflow: ellipsis;max-width:115px;}
+[id^='Photo_'] .model .title img {position:absolute;top:0;left:0px;width:35px;}
+[id^='Photo_'] .photo img {margin-bottom:35px;}
+[id^='Photo_'] .photo img {width:140px;}
+[id^='Photo_'] .buttonModComp {position:absolute;left:0;top:120px;width:100%;text-align:center;}
+[id^='Photo_'] .buttonModComp button {}
+[id^='Photo_'] .buttonModComp button[job=delComp] {position:absolute;top:-120px;right:0px;width:25px;height:25px;background: url(http://autoimg.danawa.com/html/images/common/icon_01.png) -112px -689px no-repeat}
+[id^='Photo_'] .buttonModComp button[job=toLeft] {position:absolute;top:-40px;left:-16px;width:30px;height:20px;background: url(http://autoimg.danawa.com/html/images/common/icon_01.png) -76px -650px no-repeat}
+[id^='Photo_'] .buttonModComp button[job=toLeft]:hover {background: url(http://autoimg.danawa.com/html/images/common/icon_01.png) -116px -650px no-repeat}
+[id^='Photo_'] .buttonModComp button[job=toRight] {position:absolute;top:-60px;left:-16px;width:30px;height:20px;background: url(http://autoimg.danawa.com/html/images/common/icon_01.png) 6px -650px no-repeat}
+[id^='Photo_'] .buttonModComp button[job=toRight]:hover {background: url(http://autoimg.danawa.com/html/images/common/icon_01.png) -34px -650px no-repeat}
+[id^='Photo_'] .lineup, [id^='Photo_'] .trims {margin:5px;margin-bottom:0;border:1px solid #e5e5e5;position:relative;}
+[id^='Photo_'] .lineup:before, [id^='Photo_'] .trims:before {content:"";position:absolute;right:0;top:0;width:13px;height:20px;background: url(http://autoimg.danawa.com/html/images/common/icon_01.png) 0px -131px no-repeat}
+[id^='Photo_'] .lineup button, [id^='Photo_'] .trims button {position:relative;z-index:10;display:block;padding-right:15px;text-align:center;width:100%;overflow: hidden;  white-space: nowrap;  text-overflow: ellipsis;}
+
+[id^='Sumy1_'] .vals {color:#0375e0}
+[id^='Sumy2_'] .vals {color:#0375e0}
+[id^='Sumy2_'] .count {font-size:11px;color:#666666;}
+
+[id^='Optn_'] {vertical-align: top;}
+[id^='Term_'] {vertical-align: top;}
+
+.eSelFincGood {width:160px;}
+.eRsltPriceList {padding:0 5px;color:#666666;}
+.eRsltPriceList li:after {  content: "";  display: block;  height: 0;  color: #000;  clear: both;  visibility: hidden;}
+.eRsltPriceList li .title {float:left;}
+.eRsltPriceList li .price {float:right;}
+.eRsltPriceList li .memo {float:left;margin-left:10px;color:#666666}
+.eRsltPriceList li .text  {float:left;margin-left:5px;color:#666666}
+.eRsltPriceList #insureAd {height:25px}
+
+
+.eRsltTotalSub {padding:0 5px;color:#0375e0;}
+.eRsltTotalSub:after {  content: "";  display: block;  height: 0;  color: #000;  clear: both;  visibility: hidden;}
+.eRsltTotalSub .title {float:left;line-height:24px;}
+.eRsltTotalSub .sum {float:right;font-size:14px;font-family: "Tahoma"; line-height:24px;}
+
+.eRsltCashSum {color:#e70041;font-size:16px;font-family: "Tahoma";}
+.eRsltCashGrand {color:#e70041;font-size:16px;font-family: "Tahoma";}
+
+
+
+.eChkTrimList {padding-bottom:5px;}
+.eChkTrimList li {padding:4px 0px 4px 20px;position:relative;color:#666666}
+.eChkTrimList li:after {content: ""; display: block; height: 0; clear: both; visibility: hidden;}
+.eChkTrimList li input[type=radio]{position:absolute;top:5px;left:2px;}
+.eChkTrimList li .title {width:115px;display:inline-block;line-height:16px}
+.eChkTrimList li .title label + span{position:relative;display:inline-block;margin:1px 0 0 0;padding:2px 5px 0;height:16px;line-height:16px;vertical-align:top;color:#fff;font-size:11px;font-weight:normal;letter-spacing:0}
+.eChkTrimList li .title label + .lowemission1{background:#0a585b}
+.eChkTrimList li .title label + .lowemission2{background:#417c7f}
+.eChkTrimList li .title label + .lowemission3{background:#689799}
+.eChkTrimList li .price {float:right;padding-left:0px;}
+.eChkTrimList li.sel {color:#0375e0}
+
+.eChkItemList li {padding:4px 0px 4px 20px;position:relative;color:#666666}
+.eChkItemList li:after {content: ""; display: block; height: 0; clear: both; visibility: hidden;}
+.eChkItemList li input[type=checkbox]{position:absolute;top:5px;left:2px;}
+.eChkItemList li .title {width:135px;display:inline-block;line-height:16px}
+.eChkItemList li .price {float:right;padding-left:0px;}
+.eChkItemList li.sel {color:#0375e0;}
+.eChkItemList li.blank{position:absolute;top:50%;left:0;margin:-11px 0 0;padding:0;width:100%;text-align:center;}
+
+.eChkTermList li {position:relative;color:#666666}
+.eChkTermList li.ttl {padding:3px 5px;}
+.eChkTermList li.ttl .title {line-height:16px}
+.eChkTermList li.slf {padding:3px 0px 3px 20px;}
+.eChkTermList li.slf .title {width:125px;display:inline-block;line-height:16px}
+.eChkTermList li[code^='EXX'],.eChkTermList li[code^='TXX'] {font-weight:bold;color:red;}
+.eChkTermList li.sub {padding:0px 0px 2px 35px;margin-top:0;}
+.eChkTermList li.sub .title {width:115px;display:inline-block;line-height:14px;}
+.eChkTermList li:first-child {border-top:0;}
+.eChkTermList li::after {content: ""; display: block; height:1px;color:#000; clear: both; visibility: hidden;}
+.eChkTermList li.slf input[type=checkbox]{position:absolute;top:5px;left:2px;}
+.eChkTermList li.sub input[type=checkbox]{position:absolute;top:4px;left:18px;}
+.eChkTermList li.sub:before {content:"└";position:absolute;top:0px;left:2px;color:#999999;}
+.eChkTermList li .price {float:right;padding-left:0px;}
+.eChkTermList li.sel {color:#0375e0}
+.eChkTermList li.blank{position:absolute;top:50%;left:0;margin:-11px 0 0;padding:0;width:100%;text-align:center;}
+
+.eChkTermList li.si_group{position:relative;padding-left:0}    
+.eChkTermList li.si_group + .si_group{margin-top:5px;}
+.eChkTermList .si_header{margin-bottom:5px;padding:6px 0 6px 19px;background:#f2f2f2;line-height:1;}
+.eChkTermList .si_header .txt{display:inline;vertical-align:top;line-height:1.4}
+.eChkTermList .si_cont .txt_alpha .alpha{line-height:1.2}
+				
+.eChkItemList li {margin:2px 5px;padding:0 0 0 20px;text-align:left;}
+.eChkItemList li .title {width:90px;}
+.eChkItemList li.old {padding-left:0}
+.eChkItemList li.old .title {width:110px;}
+
+.eChkTermList li {margin:2px 5px;padding:0 0 0 20px;text-align:left;}
+.eChkTermList li.slf .title {width:85px;}
+.eChkTermList li.sub .title {width:75px;}
+
+.eOldCar li {margin:2px 5px;padding:0 0 0 20px;text-align:left;}
+.eOldCar li.slf .title {width:85px;}
+.eOldCar li.sub .title {width:75px;}
+
+
+/* tab Head */
+.fincTab {position:relative;padding:0 5px 5px 6px;}
+.fincTab:after {content: ""; display: block; height: 0; clear: both; visibility: hidden; }
+.fincTab li {  float: left;  border: 1px solid #e6e6e6; border-bottom: 1px solid #b3b3b3; width:37px; text-align: center;  margin-left: -1px;}
+.fincTab li:first-child {border-left:1px solid #e6e6e6;width:50px;}
+.fincTab li button  {display:block; color:#666666; text-align:center;  width:100%; height:100%; line-height:25px;}
+.fincTab li.on {border-color: #b3b3b3;position: relative;padding-bottom: 1px;background: #fff; border-bottom-width: 0}
+.fincTab li.on button  {color:#000;font-weight:bold;}
+.fincTab li button:hover  {text-decoration:underline}
+
+.fincCont {height:155px;margin:0 5px 30px 5px;}
+.fincCont > li {display:none;}
+.fincCont > li.on {display:block;}
+.estmBtnNext {bottom:5px;}
+
+
+.eRsltBestCashback .logo { margin: 0px 20px;  background: #ffffff;  border: 1px solid #e5e5e5;  border-radius: 5px;  text-align: center;  padding: 15px 0;line-height:0;font-size:0;}
+.eRsltBestCashback .logo img {width:100px;height:40px;}
+.eRsltBestCashback .name {margin-top:10px;padding:0 5px;}
+.eRsltBestCashback .price {margin-top:0px;color:#666666}
+.eRsltBestCashback .price span {color:#0375e0}
+
+
+.payM,  .payCash {padding:0 5px;color:#0375e0;}
+.payM:after,  .payCash:after {  content: "";  display: block;  height: 0;  color: #000;  clear: both;  visibility: hidden;}
+.payM .title,  .payCash .title {position:absolute;top:-2px;left:2px;font-size:11px;color:#666666}
+.payM .sum,  .payCash .sum {float:right;font-size:14px;font-family: "Tahoma"; line-height:24px;}
+[id^='Grnd_'] .desc {position:absolute;top:-2px;left:2px;font-size:11px;color:#666666}
+
+[id^='Finc_'] .dis {display:none}
+[id^='Finc_'] .mody {display:none;}
+[id^='Finc_'] .not .price{color:#666666;text-decoration:line-through;}
+[id^='Finc_'] .headFinc {display:none;}
+
+[id^='Finc_'] .contList {position:relative;padding-top:30px;}
+[id^='Finc_'] .contList .Name .logo {position:absolute;top:0;left:0;}
+[id^='Finc_'] .contList .Name .logo img {width:60px;}
+[id^='Finc_'] .contList .Name .more {position:absolute;top:0;right:0;}
+[id^='Finc_'] .contList .Name {width:166px;overflow: hidden;  white-space: nowrap;  text-overflow: ellipsis;}
+
+[id^='Finc_'] .contList li {text-align:left;}
+[id^='Finc_'] .contList .ttl {width:55px;display:inline-block}
+[id^='Finc_'] .contList.FincS .Cash .txt {display:none;}
+[id^='Finc_'] .contList .Back .rate {display:none;}
+[id^='Finc_'] .contList li.Back {color:#ff3300;}
+[id^='Finc_'] .contList li.Cmnt span {color:#666666;font-size:11px;letter-spacing:-1px;}
+
+[id^='Finc_'] .CashS .btn {text-align:right;margin-bottom:10px;}
+
+.compare_share dt {clear:both;float:left;width:80px;font-weight:bold;margin-top:5px;}
+.compare_share dd {margin-top:5px;}
+.compare_share input {width:470px;padding:3px;}
+.compare_share textarea {width:470px;height:80px;padding:3px;}
+
+[id^='Pric_'] .tab {border-bottom:1px solid #ccc;margin-bottom:5px;background:#fafafa;}
+[id^='Pric_'] .tab input[type=radio]:checked + span { color: #0375e0;}
+[id^='Grnd_'] .type {color: #e70041;position: absolute;top: -7px;left: 3px;font-size: 11px; line-height: 12px;padding: 2px 10px 1px;border: 1px solid #e70041;border-radius: 10px;background-color: rgba(255,249,77,0.7);}
+
+.tfree .text{padding-left:6px;letter-spacing:-0.5px;color:#666;text-align:center}
+.tfree .c0f{color:#0f0f0f}

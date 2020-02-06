@@ -2,17 +2,15 @@ import { Line } from './baseCharts'
 
 export default {
   extends: Line,
-  props: ['LineGraphDataSetup'],
-  methods: {
-    dataInit() {
-      console.log(this.LineGraphDataSetup.title+this.LineGraphDataSetup.lineGraphLabels.length + this.LineGraphDataSetup.lineGraphRowData.length)
+  props:['LineGraphDataSetup'],
+  mounted() {
       this.renderChart({
-        labels: this.LineGraphDataSetup.labels,
+        labels:  ['January' , 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ] ,
         datasets: [
           {
-            label: this.LineGraphDataSetup.title,
+            label:  'CSV 파일을 올려주세요 ',
             borderColor: '#005276',
-            data: this.LineGraphDataSetup.lineGraphRowData,
+            data:  [10,10,10,10,10,10,10,10,10,10,10,10],
             borderCapStyle: 'butt',
             lineTension: 0.2,
             fill: false
@@ -20,5 +18,4 @@ export default {
         ]
       }, {responsive: true, maintainAspectRatio: false})
     }
-  }
 }

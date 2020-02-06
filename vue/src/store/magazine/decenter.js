@@ -1,16 +1,16 @@
 const state = {
     title : '' ,
     labels :[] ,
-    lineGraphLabels :['January' , 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ] ,
-    barGraphLabels :['January' , 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] ,
+    lineGraphLabels :[] ,
+    barGraphLabels :[] ,
     rowData : [],
-    lineGraphRowData : [10,10,10,10,10,10,10,10,10,10,10,10],
-    barGraphRowData : [10,10,10,10,10,10,10,10,10,10,10,10],
+    lineGraphRowData : [],
+    barGraphRowData : [],
     modelNM : [],
     Domestic : [],
     Export : [],
     GrandTotal : [],
-    isLineGraph : false ,
+    isLineGraph : true ,
     mainCategoryItem : { domestic : 'Domestic' , export : 'Export'},
     subCategoryItem : {PC: 'PC', RV: 'RV', CV: 'CV', total: 'Total' , Etotal : 'Total (excluding CKD)' , GrandTotal : 'Grand Total'},
     GraphItem : { Line : 'Line' , HorizontalBar : 'HorizontalBar'}
@@ -77,8 +77,8 @@ const actions = {
                         subCategory = rowContent[1].replace(regExp, "");
                     }
                     // loop all cell
-                    for (let i = 1; i < rowContent.length; i++) {
-                        if (i != 1) rowData.push(rowContent[i].replace(/[.,'"]/gi, ""))
+                    for (let i = 2; i < rowContent.length; i++) {
+                        if (i > 2) rowData.push(rowContent[i].replace(/[.,'"]/gi, ""))
                         if (i == 2) modelName = rowContent[i].replace(/[.,'"]/gi, "")
                     }
 
@@ -87,19 +87,8 @@ const actions = {
                             mainCategory: mainCategory,
                             subCategory: subCategory,
                             modelName: modelName,
-                            Jan: rowData[1],
-                            Feb: rowData[2],
-                            Mar: rowData[3],
-                            Apr: rowData[4],
-                            May: rowData[5],
-                            Jun: rowData[6],
-                            Jul: rowData[7],
-                            Aug: rowData[8],
-                            Sep: rowData[9],
-                            Oct: rowData[10],
-                            Nov: rowData[11],
-                            Dec: rowData[12],
-                            Total: rowData[13],
+                            monthRevenue: rowData.slice(0,12),
+                            Total: rowData[12]
                         })
                     }
 
@@ -109,19 +98,8 @@ const actions = {
                             mainCategory: mainCategory,
                             subCategory: subCategory,
                             modelName: modelName,
-                            Jan: rowData[1],
-                            Feb: rowData[2],
-                            Mar: rowData[3],
-                            Apr: rowData[4],
-                            May: rowData[5],
-                            Jun: rowData[6],
-                            Jul: rowData[7],
-                            Aug: rowData[8],
-                            Sep: rowData[9],
-                            Oct: rowData[10],
-                            Nov: rowData[11],
-                            Dec: rowData[12],
-                            Total: rowData[13]
+                            monthRevenue: rowData.slice(0,12),
+                            Total: rowData[12]
                         })
                     }
                 }
@@ -136,18 +114,7 @@ const actions = {
                         mainCategory: mainCategoryItem.domestic ,
                         subCategory: subCategoryItem.GrandTotal,
                         modelName: '',
-                        Jan: GrandTotalData[1],
-                        Feb: GrandTotalData[2],
-                        Mar: GrandTotalData[3],
-                        Apr: GrandTotalData[4],
-                        May: GrandTotalData[5],
-                        Jun: GrandTotalData[6],
-                        Jul: GrandTotalData[7],
-                        Aug: GrandTotalData[8],
-                        Sep: GrandTotalData[9],
-                        Oct: GrandTotalData[10],
-                        Nov: GrandTotalData[11],
-                        Dec: GrandTotalData[12],
+                        monthRevenue: GrandTotalData.slice(1,13),
                         Total: GrandTotalData[13]
                     }
                 })
@@ -162,18 +129,7 @@ const actions = {
                         mainCategory: mainCategoryItem.export ,
                         subCategory: subCategoryItem.GrandTotal,
                         modelName: '',
-                        Jan: GrandTotalData[1],
-                        Feb: GrandTotalData[2],
-                        Mar: GrandTotalData[3],
-                        Apr: GrandTotalData[4],
-                        May: GrandTotalData[5],
-                        Jun: GrandTotalData[6],
-                        Jul: GrandTotalData[7],
-                        Aug: GrandTotalData[8],
-                        Sep: GrandTotalData[9],
-                        Oct: GrandTotalData[10],
-                        Nov: GrandTotalData[11],
-                        Dec: GrandTotalData[12],
+                        monthRevenue: GrandTotalData.slice(1,13),
                         Total: GrandTotalData[13]
                     }
                 })
@@ -205,20 +161,11 @@ const mutations = {
     },
     UPDATECHARTDATA ( state , data ) {
         //state.labels.push(label);
-        state.Domestic[data.index].Jan = data.hasText
-        state.Domestic[data.index].Total =  Number(state.Domestic[data.index].Jan)
-                                            + Number(state.Domestic[data.index].Feb)
-                                            + Number(state.Domestic[data.index].Mar)
-                                            + Number(state.Domestic[data.index].Apr)
-                                            + Number(state.Domestic[data.index].May)
-                                            + Number(state.Domestic[data.index].Jun)
-                                            + Number(state.Domestic[data.index].Jul)
-                                            + Number(state.Domestic[data.index].Aug)
-                                            + Number(state.Domestic[data.index].Sep)
-                                            + Number(state.Domestic[data.index].Oct)
-                                            + Number(state.Domestic[data.index].Nov)
-                                            + Number(state.Domestic[data.index].Dec)
-
+        let total = 0;
+        state.Domestic[data.index].monthRevenue[data.monthIndex] = data.hasText
+        state.Domestic[data.index].monthRevenue.forEach( item => total += Number(item))
+        console.log(total)
+        state.Domestic[data.index].Total =total
         let subTotalIndex = state.Domestic.filter( item => item.subCategory === state.Domestic[data.index].subCategory).length
         let subTotal = 0
         for (let i = 0; i < subTotalIndex-1 ; i++) {
@@ -227,10 +174,8 @@ const mutations = {
         state.Domestic[subTotalIndex-1].Jan = subTotal
     },
     DRAWINGCHARTBYMODEL ( state , data ) {
-        state.title = data.labels ;
-        for (let i = 2; i < data.length ; i++) {
-            state.barGraphRowData.push(data[i])
-        }
+        state.lineGraphLabels = Object.keys(data.targetItem).slice(3,14)
+        state.lineGraphRowData = Object.values(data.targetItem).slice(3,14)
     },
     CHANGEGRAPH ( state , data ) {
         switch ( data ) {
@@ -244,6 +189,7 @@ const mutations = {
         state.lineGraphLabels = data.labels
         state.data = data.data
     }
+
 }
 export default {
     name: 'decenter',

@@ -3,8 +3,8 @@
         <div className="mc_search1">
             <ul>
                 <li>
-                    <line-example  ref="monthRevenue" v-if="isLineGraph === true" v-bind="LineGraphDataSetup"/>
-                    <horizontal-bar-example  ref="modelRevenue" v-if="isLineGraph === false"  v-bind="BarGraphDataSetup"/>
+                    <line-example  ref="monthRevenue" v-if="isLineGraph" v-bind="LineGraphDataSetup"/>
+                    <horizontal-bar-example  ref="modelRevenue" v-if="!isLineGraph"  v-bind="BarGraphDataSetup"/>
                 </li>
             </ul>
         </div>
@@ -39,36 +39,14 @@
                     <td class="model" @click="drawingChartByModel( d )" v-if="TotcolspanSetting( d.subCategory )"> {{
                         d.modelName }}
                     </td>
-                    <td class="month" @dblclick="ctf( index , 3 )" @focusout="ctfsave( index , 3 ) "> {{ d.Jan |
-                        thousandFormatter }}
+                    <td class="month" @dblclick="ctf( index , 3 )" @focusout="ctfsave( index , 3 ) "
+                        v-for=" ( month , i ) of d.monthRevenue " :key="i"> {{ month |thousandFormatter }}
                     </td>
-                    <td class="month"> {{ d.Feb | thousandFormatter }}</td>
-                    <td class="month"> {{ d.Mar | thousandFormatter }}</td>
-                    <td class="month"> {{ d.Apr | thousandFormatter }}</td>
-                    <td class="month"> {{ d.May | thousandFormatter }}</td>
-                    <td class="month"> {{ d.Jun | thousandFormatter }}</td>
-                    <td class="month"> {{ d.Jul | thousandFormatter }}</td>
-                    <td class="month"> {{ d.Aug | thousandFormatter }}</td>
-                    <td class="month"> {{ d.Sep | thousandFormatter }}</td>
-                    <td class="month"> {{ d.Oct | thousandFormatter }}</td>
-                    <td class="month"> {{ d.Nov | thousandFormatter }}</td>
-                    <td class="month"> {{ d.Dec | thousandFormatter }}</td>
                     <td class="month"> {{ d.Total | thousandFormatter }}</td>
                 </tr>
                 <tr>
                     <td class="subCate" colspan="2"><h1>{{GrandTotal.subCategory}}</h1></td>
-                    <td class="month"> {{ GrandTotal.Jan | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Feb | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Mar | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Apr | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.May | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Jun | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Jul | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Aug | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Sep | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Oct | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Nov | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Dec | thousandFormatter }}</td>
+                    <td class="month" v-for=" ( month , i ) of GrandTotal.monthRevenue " :key="i"> {{ month | thousandFormatter }}</td>
                     <td class="month"> {{ GrandTotal.Total | thousandFormatter }}</td>
                 </tr>
             </table>
@@ -78,41 +56,21 @@
         <div id="Export" class="tabcontent">
             <table id='ExportTable'>
                 <th v-for="month of labels" :key="month">
-                <td class="labelHead"> {{month}}</td>
+                <td class="labelHead" @click="drawingChartByMonth( month )"> {{ month }}</td>
                 </th>
                 <tr v-for=" ( e , index ) of Export" :key="e.Total">
                     <td class="subCate" :colspan="EcolspanNum( e.subCategory )" :rowspan=" ErowspanNum( e.subCategory )"
                         v-if="ErowspanSetting( e.subCategory , index )">{{ e.subCategory }}
                     </td>
                     <td class="model" v-if="TotcolspanSetting( e.subCategory )"> {{ e.modelName }}</td>
-                    <td class="month"> {{ e.Jan | thousandFormatter }}</td>
-                    <td class="month"> {{ e.Feb | thousandFormatter }}</td>
-                    <td class="month"> {{ e.Mar | thousandFormatter }}</td>
-                    <td class="month"> {{ e.Apr | thousandFormatter }}</td>
-                    <td class="month"> {{ e.May | thousandFormatter }}</td>
-                    <td class="month"> {{ e.Jun | thousandFormatter }}</td>
-                    <td class="month"> {{ e.Jul | thousandFormatter }}</td>
-                    <td class="month"> {{ e.Aug | thousandFormatter }}</td>
-                    <td class="month"> {{ e.Sep | thousandFormatter }}</td>
-                    <td class="month"> {{ e.Oct | thousandFormatter }}</td>
-                    <td class="month"> {{ e.Nov | thousandFormatter }}</td>
-                    <td class="month"> {{ e.Dec | thousandFormatter }}</td>
+                    <td class="month" @dblclick="ctf( index , 3 )" @focusout="ctfsave( index , 3 ) "
+                        v-for=" ( month , i ) of e.monthRevenue " :key="i"> {{ month |thousandFormatter }}
+                    </td>
                     <td class="month"> {{ e.Total | thousandFormatter }}</td>
                 </tr>
                 <tr>
                     <td class="subCate" colspan="2"><h1>{{GrandTotal.subCategory}}</h1></td>
-                    <td class="month"> {{ GrandTotal.Jan | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Feb | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Mar | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Apr | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.May | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Jun | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Jul | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Aug | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Sep | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Oct | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Nov | thousandFormatter }}</td>
-                    <td class="month"> {{ GrandTotal.Dec | thousandFormatter }}</td>
+                    <td class="month" v-for=" ( month , i ) of GrandTotal.monthRevenue " :key="i"> {{ month | thousandFormatter }}</td>
                     <td class="month"> {{ GrandTotal.Total | thousandFormatter }}</td>
                 </tr>
             </table>
@@ -138,8 +96,8 @@
             return {
                 fileName: '',
                 flag: false ,
-                LineGraphDataSetup : { title : 'CSV 파일을 올려주세요 ', labels : ['January' , 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Total' ], lineGraphRowData : this.lineGraphRowData},
-                BarGraphDataSetup : { title :  'CSV 파일을 올려주세요 ', labels : ['January' , 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Total' ], barGraphRowData : this.barGraphRowData}
+                LineGraphDataSetup : '' ,
+                BarGraphDataSetup : ''
             }
         },
         computed: {
@@ -163,13 +121,17 @@
             }
         },
         methods: {
-            drawingChartByMonth(month) {
+            drawingChartByMonth( month ) {
                 console.log('month >>>' + month)
-                this.$store.dispatch('decenter/changeGraph', this.GraphItem.HorizontalBar)
+                this.$store.dispatch('decenter/changeGraph',  this.GraphItem.HorizontalBar )
+                this.LineGraphDataSetup = {labels : this.lineGraphLabels , title: 'title' , lineGraphRowData: this.lineGraphRowData }
+
             },
             drawingChartByModel(targetItem) {
+                this.BarGraphDataSetup =  {labels : this.barGraphLabels , title: 'title' , barGraphRowData: this.barGraphRowData  }
                 this.$store.dispatch('decenter/drawingChartByModel', {targetItem: targetItem})
-                this.$store.dispatch('decenter/changeGraph', this.GraphItem.Line)
+                this.$store.dispatch('decenter/changeGraph', this.GraphItem.Line )
+
             },
             thousandFormatter(value) {
                 return (value === undefined || value === '') ? 0
@@ -183,7 +145,8 @@
                 let calcTr = tr + 16
                 var baseElement = document.querySelector("#DomesticTable > tr:nth-child(" + calcTr + ") > td:nth-child(" + td + ")");
                 if (this.flag) {
-                    baseElement.innerHTML = "<input v-model=\"message\"  style=\"text-align: right\" placeholder=\"" + this.thousandFormatter(this.Domestic[tr].Jan) + "\" id = \"innerinput\" >"
+                    baseElement.innerHTML = "<input v-model=\"message\"  style=\"text-align: right\" placeholder=\"" + this.thousandFormatter(this.Domestic[tr].monthRevenue[td-3]) + "\" id = \"innerinput\" >"
+                    console.log(this.Domestic[tr].monthRevenue[td-3])
                 }
             },
             ctfsave(tr, td) {
@@ -194,7 +157,7 @@
                 let hasText = baseElement.querySelector("input").value
                 baseElement.innerHTML = ''
                 baseElement.innerHTML = this.thousandFormatter(hasText)
-                this.$store.dispatch('decenter/UpdateChartData', {index: tr, hasText: hasText})
+                this.$store.dispatch('decenter/UpdateChartData', {index: tr, monthIndex : td-3, hasText: hasText})
                 this.flag = false
             },
             csvExport(arrData) {
@@ -318,6 +281,9 @@
                 return (value === undefined || value === '') ? 0
                     : value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
+        },
+        created() {
+            this.LineGraphDataSetup = {labels : this.lineGraphLabels , title: 'title' , lineGraphRowData: this.lineGraphRowData }
         }
     }
 </script>

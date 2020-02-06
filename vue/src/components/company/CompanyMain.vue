@@ -18,8 +18,9 @@
             <div id="sale" class="center_detail_cont">
 
                 <div id="centerGuide" >
+                    <h3>매출</h3>
                     <div class="center_info">
-                        <h3>매출</h3>
+
                             <month_revenue></month_revenue>
                     </div>
                 </div>
@@ -116,11 +117,17 @@ import employee from "./Employee";
 
 </script>
 <style scoped>
-    .center_info h3{
+    #centerGuide h3{
         text-align: center;
         font-weight: 600;
         font-size: 38px;
         color: #000;
+        padding-bottom: 20px;
+
+    }
+    .center_info{
+        border-bottom: 1px solid #222;
+        border-top: 1px solid #222;
     }
     #sale,#recent_sale,#centerEmployee,#inventory{
         padding-top: 140px;
@@ -145,5 +152,8 @@ import employee from "./Employee";
         background: #ffffff !important;
         border-bottom: 1px solid rgb(0, 31, 65);
         z-index: 110;
+    }
+    #sale{
+        padding-top: 80px;
     }
 </style>

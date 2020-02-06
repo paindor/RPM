@@ -20,6 +20,7 @@ import java.util.List;
 @Table(name="SOCIALBOARD")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "boardSeq")
 public class Social implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "BOARDSEQ") @NotNull private Long boardSeq;
