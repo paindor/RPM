@@ -83,6 +83,10 @@ public class SocialServiceImpl implements SocialService{
 
     @Override
     public void writeContent(SocialWriteDTO param){
+        System.out.println(box.size());
+        for(int i = 0 ; i < box.size() ; i++){
+            System.out.println(box.get(i));
+        }
         user = userRepository.findByUserid(param.getUserid());
         social = new Social();
         social.setUserSeq(user);

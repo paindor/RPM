@@ -9,14 +9,14 @@
         <div class="mycarInfo">
             <div class="col-md-4 col-sm-6 portfolio-item">
                 <div class="pic">
-                    <img src="https://blackrockdigital.github.io/startbootstrap-agency/img/portfolio/02-thumbnail.jpg" class="pic-image" alt="">
+                    <img class="pic-image" :src="mycar.carImg" alt="" >
                     <span class="pic-caption bottom-to-top">
                         <div>
                             <em><h1 class="pic-title">{{this.user.name}} 님의 차량정보 </h1></em>
                         </div>
                         <div>
                             <p v-if="this.mycar">
-                                차종:{{this.mycar.model}} <br/>연식: 20{{this.mycar.year}}년 {{this.mycar.month}}월
+                                차종:{{this.mycar.model}} <br/>연식: {{this.mycar.year}}년 {{this.mycar.month}}월
                             </p>
                             <p v-else>
                                 차종:  <br/>연식:
@@ -31,12 +31,10 @@
             <div class="changeInfo" v-if="this.mycar">
                 <h2>주행거리: {{this.mycar.distance}}km</h2>
                 <h2>내 차 연비: 7.5km/L</h2>
-                <h2>마지막 정비일:  {{this.record[0].date}}</h2>
             </div>
             <div class="changeInfo" v-else>
                 <h2>주행거리: 0km</h2>
                 <h2>내 차 연비:  0km/L</h2>
-                <h2>마지막 정비일:  </h2>
             </div>
             <div v-if="this.mycar">
                 <div class="col-md-6 col-lg-3">
@@ -113,7 +111,7 @@
                             <td>{{i.serviceCode}}</td>
                             <td>{{i.detail}}</td>
                             <td>{{i.price}}</td>
-                            <td><a   href=""><i @click="deleteRecord" class="fas fa-trash-alt"></i></a></td>
+                            <td><a   href=""><i @click="deleteRecord( i.recordId)" class="fas fa-trash-alt"></i></a></td>
 
                         </tr>
 
@@ -137,8 +135,7 @@
         name: "MyCarPage",
         data(){
             return{
-                record : JSON.parse(localStorage.getItem("record")),
-                mycar :JSON.parse(localStorage.getItem("mycar"))
+
 
 
             }
@@ -149,9 +146,13 @@
         computed:{
             ...mapState({
                 user: state => state.user.user,
-                auth: state => state.user.auth
+                auth: state => state.user.auth,
+                mycar: state=>state.carbook.mycar,
+                record: state=>state.carbook.record
 
-            })
+
+            }),
+
 
 
         },
@@ -166,8 +167,11 @@
                     draggable: true,
                 })
             },
-            deleteRecord(){
-                this.$store.dispatch('deleteRecord', {mycarid: this.mycarid})
+            deleteRecord(recordId){
+                let id  = recordId
+                alert('recordididid  '+ id)
+
+                this.$store.dispatch('carbook/deleteRecord', {id: recordId})
             }
 
         },

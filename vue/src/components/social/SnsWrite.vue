@@ -12,122 +12,122 @@
         <div class="col-lg-9">
             <div class="card mt-4">
                 <div class="dropbox" >
-                    <file-pond
-                            ref="pond"
-                            label-idle="이 곳에 사진 파일을 드래그 해주세요."
-                            allow-multiple="false"
-                            max-files="1"
-                            accepted-file-types="image/jpeg, image/png"
-                            :server="server"
-                            :file="file"
-                            :init="handleFilePondInit"/>
-                    <p>*10Mb 이하의 파일을 업로드 해주세요.</p>
+            <file-pond
+                    ref="pond"
+                    label-idle="이 곳에 사진 파일을 드래그 해주세요."
+                    allow-multiple="false"
+                    max-files="1"
+                    accepted-file-types="image/jpeg, image/png"
+                    :server="server"
+                    :file="file"
+                    :init="handleFilePondInit"/>
+            <p>*10Mb 이하의 파일을 업로드 해주세요.</p>
 
-                </div>
-                <div class="checkbox">
-                    <h1 style="font-size:1.7em">모델명 선택하기</h1>
-                    <div id="divTabWant1" class="divTabWantGroup">
-                        <!--검색tab1 내용-->
-                        <div class="searchcont1">
-                            <ul>
-                                <li>
+        </div>
+            <div class="checkbox">
+                <h1 style="font-size:1.7em">모델명 선택하기</h1>
+                <div id="divTabWant1" class="divTabWantGroup">
+                    <!--검색tab1 내용-->
+                    <div class="searchcont1">
+                        <ul>
+                            <li>
                             <span id="spanMakeType" class="btnl">
                               <a @click="korCar(`korCar`,`impCar`)" id="korCar" class="on" data-item="MAKE_TYPE010">국산차</a>
                               <a @click="impCar(`korCar`,`impCar`,`category1`)" id="impCar" data-item="MAKE_TYPE020">수입차</a>
                             </span>
-                                </li>
-                                <li class="spreset">
-                                    <div class="searchr1">
-                                        <div id="searchKey1" @click="searchKeyClick(`searchKey1`)"
-                                             class="selectric-wrapper selectric-selectric selectric-below selectric-hover">
-                                            <div class="selectric-hide-select">
-                                                <select id="makeList"
-                                                        title="제조사를 선택하세요"
-                                                        class="selectric"
-                                                        data-beusable-tracking=""
-                                                        tabindex="-1"
-                                                        v-for="category of this.$store.state.contents.category1"
-                                                        :key="category.name">
-                                                    <option data-type="MAKE_TYPE010"
-                                                            data-cnt="category.count">{{category.name}}</option>
-                                                </select></div>
-                                            <div class="selectric" ><span class="label"
-                                                                          data-beusable-tracking="" >{{keyWord1}}</span></div>
-                                            <div id = "category1" class="selectric-items" tabindex="-1">
-                                                <div class="selectric-scroll">
-                                                    <ul v-for="category of this.$store.state.contents.category1" :key="category.name">
-                                                        <li data-index="1" @click="setCategory2(category)" class="">{{category.name}}
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <input class="selectric-input" tabindex="0"></div>
-                                    </div>
-                                    <div class="searchr2">
-                                        <div id="searchKey2"  @click="searchKeyClick(`searchKey2`)"
-                                             class="selectric-wrapper selectric-selectric selectric-below selectric-hover">
-                                            <div class="selectric-hide-select"><select
-                                                    id="modelGroupList" title="모델을 선택하세요"
-                                                    class="selectric" data-beusable-tracking=""
+                            </li>
+                            <li class="spreset">
+                                <div class="searchr1">
+                                    <div id="searchKey1" @click="searchKeyClick(`searchKey1`)"
+                                         class="selectric-wrapper selectric-selectric selectric-below selectric-hover">
+                                        <div class="selectric-hide-select">
+                                            <select id="makeList"
+                                                    title="제조사를 선택하세요"
+                                                    class="selectric"
+                                                    data-beusable-tracking=""
                                                     tabindex="-1"
-                                                    v-for="category of this.$store.state.contents.category2"
+                                                    v-for="category of this.$store.state.contents.category1"
                                                     :key="category.name">
                                                 <option data-type="MAKE_TYPE010"
                                                         data-cnt="category.count">{{category.name}}</option>
                                             </select></div>
-                                            <div class="selectric"><span class="label"
-                                                                         data-beusable-tracking="">{{keyWord2}}</span></div>
-                                            <div id = "category2" class="selectric-items" tabindex="-1" >
-                                                <div class="selectric-scroll">
-                                                    <ul v-for="category of this.$store.state.contents.category2" :key="category.name">
-                                                        <li data-index="1" @click="setCategory3(category)" class="">{{category.name}}
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                        <div class="selectric" ><span class="label"
+                                                                      data-beusable-tracking="" >{{keyWord1}}</span></div>
+                                        <div id = "category1" class="selectric-items" tabindex="-1">
+                                            <div class="selectric-scroll">
+                                                <ul v-for="category of this.$store.state.contents.category1" :key="category.name">
+                                                    <li data-index="1" @click="setCategory2(category)" class="">{{category.name}}
+                                                    </li>
+                                                </ul>
                                             </div>
-                                            <input class="selectric-input" tabindex="0"></div>
-                                    </div>
-                                    <div class="searchr3">
-                                        <div id="searchKey3" @click="searchKeyClick(`searchKey3`)"
+                                        </div>
+                                        <input class="selectric-input" tabindex="0"></div>
+                                </div>
+                                <div class="searchr2">
+                                    <div id="searchKey2"  @click="searchKeyClick(`searchKey2`)"
+                                         class="selectric-wrapper selectric-selectric selectric-below selectric-hover">
+                                        <div class="selectric-hide-select"><select
+                                                id="modelGroupList" title="모델을 선택하세요"
+                                                class="selectric" data-beusable-tracking=""
+                                                tabindex="-1"
+                                                v-for="category of this.$store.state.contents.category2"
+                                                :key="category.name">
+                                            <option data-type="MAKE_TYPE010"
+                                                    data-cnt="category.count">{{category.name}}</option>
+                                        </select></div>
+                                        <div class="selectric"><span class="label"
+                                                                     data-beusable-tracking="">{{keyWord2}}</span></div>
+                                        <div id = "category2" class="selectric-items" tabindex="-1" >
+                                            <div class="selectric-scroll">
+                                                <ul v-for="category of this.$store.state.contents.category2" :key="category.name">
+                                                    <li data-index="1" @click="setCategory3(category)" class="">{{category.name}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <input class="selectric-input" tabindex="0"></div>
+                                </div>
+                                <div class="searchr3">
+                                    <div id="searchKey3" @click="searchKeyClick(`searchKey3`)"
 
-                                             class="selectric-wrapper selectric-selectric selectric-below selectric-hover">
-                                            <div class="selectric-hide-select">
-                                                <select
-                                                        id="modelList"
-                                                        title="세부모델을 선택하세요"
-                                                        class="selectric"
-                                                        data-beusable-tracking=""
-                                                        tabindex="-1"
-                                                        v-for="category of this.$store.state.contents.category3"
-                                                        :key="category.name">
-                                                    <option data-type="MAKE_TYPE010"
-                                                            data-cnt="category.count">{{category.name}}</option>
-                                                </select></div>
-                                            <div class="selectric"><span class="label"
-                                                                         data-beusable-tracking="">{{keyWord3}}</span></div>
-                                            <div class="selectric-items" tabindex="-1">
-                                                <div class="selectric-scroll">
-                                                    <ul v-for="category of this.$store.state.contents.category3" :key="category.name">
-                                                        <li data-index="1" @click="setKeyWord3(category)" class="">{{category.name}}
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                         class="selectric-wrapper selectric-selectric selectric-below selectric-hover">
+                                        <div class="selectric-hide-select">
+                                            <select
+                                                    id="modelList"
+                                                    title="세부모델을 선택하세요"
+                                                    class="selectric"
+                                                    data-beusable-tracking=""
+                                                    tabindex="-1"
+                                                    v-for="category of this.$store.state.contents.category3"
+                                                    :key="category.name">
+                                                <option data-type="MAKE_TYPE010"
+                                                        data-cnt="category.count">{{category.name}}</option>
+                                            </select></div>
+                                        <div class="selectric"><span class="label"
+                                                                     data-beusable-tracking="">{{keyWord3}}</span></div>
+                                        <div class="selectric-items" tabindex="-1">
+                                            <div class="selectric-scroll">
+                                                <ul v-for="category of this.$store.state.contents.category3" :key="category.name">
+                                                    <li data-index="1" @click="setKeyWord3(category)" class="">{{category.name}}
+                                                    </li>
+                                                </ul>
                                             </div>
-                                            <input class="selectric-input" tabindex="0"></div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                                        </div>
+               `                         <input class="selectric-input" tabindex="0"></div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-
-                <div class="inputbox">
-                    <p>{{contentTitle}}</p>
-                    <br/>
-
-                    <textarea class="card-text" v-model="content"/>
-                </div>
             </div>
+
+            <div class="inputbox">
+                <p>{{contentTitle}}</p>
+                <br/>
+
+                <textarea class="card-text" v-model="content"/>
+            </div>
+        </div>
             <div class="btnbox">
                 <button class="btn btn-primary" v-if="writeBtn" @click="inputContent" data-dismiss="modal" type="button">
                     <i class="fas fa-pen"></i> <b>글 쓰기</b></button>
@@ -197,7 +197,8 @@
             }
         },
         created(){
-            if(this.$store.state.user.auth===false){
+            if(this.$store.state.auth===false){
+                alert(this.$store.state.auth)
                 alert('로그인해주세요')
                 this.$router.push({path: '/login'})
             }else{

@@ -53,7 +53,7 @@ public class SocialController {
         String filename = itr.next();
         MultipartFile mfile = uploadFile.getFile(filename);
         String origName=mfile.getOriginalFilename();
-        String path = "C:\\Users\\yejee\\IdeaProjects\\TeamRPM\\src\\main\\resources\\static\\img";
+        String path = "C:\\last_RPM\\src\\main\\resources\\static\\img";
         String directory=new SimpleDateFormat("yy-MM-dd").format(new Date()).replace("-", File.separator);
         File serverPath = socialService.makeDir(path, directory);
         serverPath.mkdirs();

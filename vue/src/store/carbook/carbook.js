@@ -1,4 +1,6 @@
 import axios from 'axios'
+import router from '@/router'
+
 const state = {
     mycar : {},
     record: [],
@@ -19,6 +21,7 @@ const actions = {
         axios
             .post('http://localhost:8080/getMycar' , user ,  headers)
             .then(({data})=>{
+                alert('response')
                 commit('mycarCommit', data)
                 if(data.record!=null){
                     commit('recordCommit', data)
@@ -43,19 +46,27 @@ const actions = {
 
             })
     },
-    async addRecord( {dt}){
+    async addRecord( {commit}, {date,
+                          serviceCode,
+                          detail,
+                          price})
+    {
         let headers ={  'authorization': 'JWT fefege..',
             'Accept' : 'application/json',
             'Content-Type': 'application/json'}
-           // console.log(dt.mycar.mycarId)
-            console.log('inter add')
 
-
-
+        let mecar = localStorage.getItem("mycarId")
 
         axios
-            .post(`http://localhost:8080/insertRecord/`+ dt.mycar.mycarId , dt.record , headers)
-            .then(()=>{
+            .post(`http://localhost:8080/insertRecord/`+ mecar ,{date, serviceCode,detail,price} , headers)
+            .then(({data})=>{
+                alert(data)
+                if(data.result == true){
+                    alert('success')
+                    commit('addRecord', data)
+                }else{
+                    alert('fail')
+                }
 
                 //console.log('in the add ' + data)
 
@@ -67,31 +78,62 @@ const actions = {
             })
 
     },
-    async deleteRecord( {recordid}){
+    async deleteRecord({commit}, {id} ){
+        alert('' )
+        //console.log(`id === ${this.id}`)
+        alert(`inthe deleterec  ${id}`)
+        let mecar = localStorage.getItem("mycarId")
+        alert('http://localhost:8080/deleteRecord/'+id +"/" +mecar)
+        axios.delete('http://localhost:8080/deleteRecord/'+id +"/" +mecar)
+            .then(({data})=>{
+                if(data.result == true){
+                    commit('recordCommit', data)
 
-        axios.get('http://localhost:8080/deleteRecord'+recordid)
-            .then(()=>{
-
+                }
             })
             .catch(()=>{
                 alert('delete fail')
             })
+
+    },
+    async mycarRegist({commit},  dd ){
+
+        let headers = {
+            'authorization': 'JWT fefege..',
+            'Accept' : 'application/json',
+            'Content-Type': 'application/json'
+        }
+        let mycar = {
+            brand: dd.brand,
+            distance: dd.distance,
+            model: dd.model,
+            carImg: dd.img,
+            month: dd.month,
+            year: dd.year
+        }
+        let url = 'http://localhost:8080/registMycar/'+dd.userid
+        axios.post(url, mycar, headers )
+            .then(({data})=>{
+
+                commit('mycarCommit', data)
+                router.push('/mypage')
+            })
+
 
     }
 }
 const mutations = {
     mycarCommit(state, data){
         state.mycar = data.mycar
-        localStorage.setItem("mycar", JSON.stringify(data.mycar))
+        localStorage.setItem("mycarId", data.mycar.mycarId)
+
 
     },
     recordCommit(state, data){
         state.record = data.record
-        localStorage.setItem("record", JSON.stringify(data.record))
     },
     addRecord(state, data ){
-        state.record.push(data.rec)
-        localStorage.setItem("record", JSON.stringify(data.record))
+        state.record.unshift(data.rec)
     },
     testCommit(state, data){
         alert('test' +data)

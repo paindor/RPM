@@ -28,6 +28,8 @@ public class Carbook implements Serializable {
     @Column(name = "MONTH")   private String month;
     @Column(name = "DISTANCE")   private String distance;
     @Column(name = "FUELTYPE") private String fuelType;
+    @Column(name = "CARIMG") private String carImg;
+
 
     @OneToOne
     @JoinColumn(name = "userSeq")

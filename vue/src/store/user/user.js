@@ -31,12 +31,10 @@ const actions = {
                             if(data.result == true) {
 
                                 if (data.mycar) {
-                                    localStorage.setItem("mycar", JSON.stringify(data.mycar))
                                     commit('carbook/mycarCommit', data , {root:true})
 
 
                                     if (data.record) {
-                                        localStorage.setItem("record", JSON.stringify(data.record))
                                         commit('carbook/recordCommit', data , {root:true})
                                     }
                                 }
@@ -75,8 +73,7 @@ const actions = {
     async logout({commit}){
         commit('LOGOUT_COMMIT')
         localStorage.removeItem("token")
-        localStorage.removeItem("mycar")
-        localStorage.removeItem("record")
+        localStorage.removeItem("mycarId")
         localStorage.removeItem("userId")
 
 
@@ -92,12 +89,10 @@ const actions = {
                     if(data.result == true) {
 
                         if (data.mycar) {
-                            localStorage.setItem("mycar", JSON.stringify(data.mycar))
                             commit('carbook/mycarCommit', data , {root:true})
 
 
                             if (data.record) {
-                                localStorage.setItem("record", JSON.stringify(data.record))
                                 commit('carbook/recordCommit', data , {root:true})
                             }
                         }
@@ -136,6 +131,7 @@ const mutations = {
     LOGIN_COMMIT(state, data){
         state.auth = true
         state.user = data.user
+
     },
 
     LOGOUT_COMMIT(state){

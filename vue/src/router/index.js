@@ -34,14 +34,14 @@ import Map from '@/components/carbook/Map.vue'
 Vue.use(Router)
 
 const requireAuthCompany = () => (to, from, next) => {
-    if (localStorage.getItem('auth') === 1) {
+    if (localStorage.getItem('auth') == 1) {
         return next();
     }
     next('/');
     alert('접근권한이 없습니다.')
 };
 const requireAuthUser = () => (to, from, next) => {
-    if (localStorage.getItem('auth') === 0) {
+    if (localStorage.getItem('auth') == 0) {
         return next();
     }
     next('/');

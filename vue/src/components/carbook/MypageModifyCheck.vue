@@ -17,7 +17,7 @@
 										src="https://www.kcar.com/resources/images/common/login_pass.gif"
 										alt="패스워드"></label></strong>
 								<p><input type="password" id="loginPass" class="input_pass" v-model="password"
-										  maxlength="20" @keyup.enter="check"></p>
+									maxlength="20" @keyup.enter="check"></p>
 							</div>
 						</div>
 						<div class="login_bt">

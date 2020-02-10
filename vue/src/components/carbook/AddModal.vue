@@ -26,7 +26,6 @@
         name: "addModal",
         data(){
             return {
-                mycar: JSON.parse(localStorage.getItem("mycar")),
                 date: '',
                 servicecode: '',
                 detail: '',
@@ -41,22 +40,14 @@
         },
         methods:{
             callAddRecord(){
-                console.log('price ' + this.mycar.mycarId)
-                let dt = {
-                    record: {
-                        date: this.date,
-                        serviceCode: this.servicecode,
-                        detail : this.detail,
-                        price: this.price
-                    },
-                    mycar : this.mycar.mycarId
 
+                this.$store.dispatch('carbook/addRecord' , {
+                    date: this.date,
+                    serviceCode: this.servicecode,
+                    detail: this.detail,
+                    price: this.price
 
-                }
-
-
-
-                this.$store.dispatch('carbook/addRecord' ,{dt} )
+                })
                 this.$emit('close')
 
 
@@ -66,10 +57,7 @@
 
         },
         computed:{
-            getcarId(){
-                return this.mycar.mycarId
 
-            }
         }
 
     }

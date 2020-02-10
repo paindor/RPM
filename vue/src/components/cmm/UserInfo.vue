@@ -45,13 +45,14 @@
         data() {
             return {
                 name: '',
-                mycar: JSON.parse(localStorage.getItem("mycar"))
+
             }
         },
         computed: {
             ...mapState({
                 user: state => state.user.user,
-                auth: state => state.user.auth
+                auth: state => state.user.auth,
+                mycar: state=> state.carbook.mycar
             })
 
         },
